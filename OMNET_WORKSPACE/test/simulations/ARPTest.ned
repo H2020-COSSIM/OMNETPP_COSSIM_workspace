@@ -1,12 +1,10 @@
-/* ----------------------------------------------------------------------------
- * COSSIM - Example of 4 simulated HLANodes using both Ethernet and Wireless networks.
- * Copyright (c) 2018, H2020 COSSIM.
- * Copyright (c) 2018, Telecommunications Systems Institute.
- * 
- * Author: Nikolaos Tampouratzis, ntampouratzis@isc.tuc.gr
- * ----------------------------------------------------------------------------
- *
-*/
+// ----------------------------------------------------------------------------
+// COSSIM - Example of 4 simulated HLANodes using both Ethernet and Wireless networks.
+// Copyright (c) 2018, H2020 COSSIM.
+// Copyright (c) 2018, Telecommunications Systems Institute.
+// 
+// Author: Nikolaos Tampouratzis, ntampouratzis@isc.tuc.gr
+// ----------------------------------------------------------------------------
 
 package test.simulations;
 
