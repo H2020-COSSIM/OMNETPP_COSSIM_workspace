@@ -1,16 +1,12 @@
-//
-// Copyright (C) 2006 Andras Varga
-//
-// This library is free software, you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation;
-// either version 2 of the License, or any later version.
-// The library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Lesser General Public License for more details.
-//
-
+/* ----------------------------------------------------------------------------
+ * COSSIM - Example of 4 simulated HLANodes using both Ethernet and Wireless networks.
+ * Copyright (c) 2018, H2020 COSSIM.
+ * Copyright (c) 2018, Telecommunications Systems Institute.
+ * 
+ * Author: Nikolaos Tampouratzis, ntampouratzis@isc.tuc.gr
+ * ----------------------------------------------------------------------------
+ *
+*/
 
 package test.simulations;
 

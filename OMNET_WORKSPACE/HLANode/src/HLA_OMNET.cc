@@ -1,8 +1,12 @@
-// ----------------------------------------------------------------------------
-// COSSIM - GEM5 HLA RunTime Infrastructure
-// Copyright (C) 2015  TUC
-//
-// ----------------------------------------------------------------------------
+/* ----------------------------------------------------------------------------
+ * COSSIM - HLANode
+ * Copyright (c) 2018, H2020 COSSIM.
+ * Copyright (c) 2018, Telecommunications Systems Institute.
+ * 
+ * Author: Nikolaos Tampouratzis, ntampouratzis@isc.tuc.gr
+ * ----------------------------------------------------------------------------
+ *
+*/
 
 #include <config.h>
 
