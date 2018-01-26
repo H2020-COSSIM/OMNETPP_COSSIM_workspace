@@ -2,7 +2,7 @@
 
 All modifications required to extend the functionality of the OMNET++/OMNEST network simulator to work with the COSSIM framework. 
 
-## What contains the WORKSPACE?
+## What is contained in the WORKSPACE?
 
 - `INET 3.2.4` version which is required by COSSIM to model real networks. 
 - `HLANode` project which interconnects the OMNET++ with the cgem5 through HLA.
