@@ -1,0 +1,8 @@
+15:47:44 **** Incremental Build of configuration gcc-debug for project test_Milan ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+cd src && make
+make[1]: Entering directory `/home/cossim/OMNET_WORKSPACE/test_Milan/src'
+make[1]: Leaving directory `/home/cossim/OMNET_WORKSPACE/test_Milan/src'
+
+15:47:44 Build Finished (took 77ms)
+

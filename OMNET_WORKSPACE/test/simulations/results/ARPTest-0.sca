@@ -1,0 +1,1126 @@
+version 2
+run ARPTest-0-20180125-17:47:16-19323
+attr configname ARPTest
+attr datetime 20180125-17:47:16
+attr experiment ARPTest
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network ARPTest
+attr processid 19323
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param *.configurator.addStaticRoutes false
+param *.micro_router*.energyStorageType "\"IdealEnergyStorage\""
+param *.micro_router*.wlan[0].radio.bandwidth 2MHz
+param *.micro_router*.wlan[0].radio.carrierFrequency 2GHz
+param *.micro_router*.wlan[0].radio.energyConsumer.offPowerConsumption 0mW
+param *.micro_router*.wlan[0].radio.energyConsumer.receiverBusyPowerConsumption 5mW
+param *.micro_router*.wlan[0].radio.energyConsumer.receiverIdlePowerConsumption 2mW
+param *.micro_router*.wlan[0].radio.energyConsumer.receiverReceivingPowerConsumption 10mW
+param *.micro_router*.wlan[0].radio.energyConsumer.sleepPowerConsumption 1mW
+param *.micro_router*.wlan[0].radio.energyConsumer.switchingPowerConsumption 1mW
+param *.micro_router*.wlan[0].radio.energyConsumer.transmitterTransmittingPowerConsumption 100mW
+param *.micro_router*.wlan[0].radio.energyConsumerType "\"StateBasedEnergyConsumer\""
+param *.micro_router*.wlan[0].radio.receiver.energyDetection -85dBm
+param *.micro_router*.wlan[0].radio.receiver.sensitivity -85dBm
+param *.micro_router*.wlan[0].radio.receiver.snirThreshold 4dB
+param *.micro_router*.wlan[0].radio.transmitter.communicationRange 250m
+param *.micro_router*.wlan[0].radio.transmitter.headerBitLength 0b
+param *.micro_router*.wlan[0].radio.transmitter.power 1.4mW
+param *.micro_router*.wlan[0].radio.transmitter.preambleDuration 10us
+param *.micro_router*.wlan[0].radio.typename "\"IdealWirelessNic\""
+param *.micro_router*.wlan[0].radioType "\"APSKScalarRadio\""
+param ARPTest.micro_router0.routingTable.routingFile "\"whost0.mrt\""
+param ARPTest.micro_router1.routingTable.routingFile "\"whost1.mrt\""
+
+scalar ARPTest.micro_router0.networkLayer.arp 	failedARPResolution:count 	0
+attr title  "ARP failed resolutions, count"
+scalar ARPTest.micro_router0.networkLayer.arp 	completedARPResolution:count 	0
+attr title  "ARP completed resolutions, count"
+scalar ARPTest.micro_router0.networkLayer.arp 	initiatedARPResolution:count 	0
+attr title  "ARP initiated resolutions, count"
+scalar ARPTest.micro_router0.networkLayer.arp 	sentReply:count 	0
+attr title  "ARP replies sent, count"
+scalar ARPTest.micro_router0.networkLayer.arp 	sentReq:count 	0
+attr title  "ARP request sent, count"
+scalar ARPTest.micro_router0.lo0.lo 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.micro_router0.lo0.lo 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.micro_router0.lo0.lo 	rcvdPkFromHL:count 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, count"
+scalar ARPTest.micro_router0.lo0.lo 	rcvdPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.lo0.lo 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.micro_router0.lo0.lo 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.wlan[0].mac.statistics 	numReceivedUnicast 	0
+scalar ARPTest.micro_router0.wlan[0].mac.statistics 	numReceivedBroadcast 	0
+scalar ARPTest.micro_router0.wlan[0].mac.statistics 	numReceivedMulticast 	0
+scalar ARPTest.micro_router0.wlan[0].mac.statistics 	numReceivedNotForUs 	0
+scalar ARPTest.micro_router0.wlan[0].mac.statistics 	numReceivedErroneous 	0
+scalar ARPTest.micro_router0.wlan[0].mac 	rcvdPkFromLL:count 	0
+attr interpolationmode  none
+attr source  packetReceivedFromLower
+attr title  "packets received from lower layer, count"
+scalar ARPTest.micro_router0.wlan[0].mac 	rcvdPkFromLL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetReceivedFromLower
+attr title  "packets received from lower layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.wlan[0].mac 	sentDownPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToLower
+attr title  "packets sent to lower layer, count"
+scalar ARPTest.micro_router0.wlan[0].mac 	sentDownPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToLower
+attr title  "packets sent to lower layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.wlan[0].mac 	rcvdPkFromHL:count 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, count"
+scalar ARPTest.micro_router0.wlan[0].mac 	rcvdPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.wlan[0].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.micro_router0.wlan[0].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.wlan[0].radio 	transmissionState:count 	0
+attr interpolationmode  sample-hold
+attr source  transmissionStateChanged
+attr title  "Radio transmission state, count"
+scalar ARPTest.micro_router0.wlan[0].radio 	receptionState:count 	1
+attr interpolationmode  sample-hold
+attr source  receptionStateChanged
+attr title  "Radio reception state, count"
+scalar ARPTest.micro_router0.wlan[0].radio 	radioMode:count 	2
+attr interpolationmode  sample-hold
+attr source  radioModeChanged
+attr title  "Radio mode, count"
+statistic ARPTest.micro_router0.wlan[0].radio 	symbolErrorRate:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  symbolErrorRate
+attr title  "Symbol error rate, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+statistic ARPTest.micro_router0.wlan[0].radio 	bitErrorRate:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  bitErrorRate
+attr title  "Bit error rate, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+statistic ARPTest.micro_router0.wlan[0].radio 	packetErrorRate:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  packetErrorRate
+attr title  "Packet error rate, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+statistic ARPTest.micro_router0.wlan[0].radio 	minSNIR:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  minSNIR
+attr title  "Min SNIR, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+scalar ARPTest.micro_router0.eth[0].mac 	"simulated time" 	133.6
+scalar ARPTest.micro_router0.eth[0].mac 	full-duplex 	1
+scalar ARPTest.micro_router0.eth[0].mac 	"frames/sec sent" 	0
+scalar ARPTest.micro_router0.eth[0].mac 	"frames/sec rcvd" 	0
+scalar ARPTest.micro_router0.eth[0].mac 	"bits/sec sent" 	0
+scalar ARPTest.micro_router0.eth[0].mac 	"bits/sec rcvd" 	0
+scalar ARPTest.micro_router0.eth[0].mac 	"rx channel idle (%)" 	100
+scalar ARPTest.micro_router0.eth[0].mac 	"rx channel utilization (%)" 	0
+scalar ARPTest.micro_router0.eth[0].mac 	droppedPkNotForUs:count 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, count"
+scalar ARPTest.micro_router0.eth[0].mac 	droppedPkNotForUs:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].mac 	droppedPkIfaceDown:count 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, count"
+scalar ARPTest.micro_router0.eth[0].mac 	droppedPkIfaceDown:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].mac 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.micro_router0.eth[0].mac 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].mac 	rxPkFromHL:count 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, count"
+scalar ARPTest.micro_router0.eth[0].mac 	rxPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].mac 	rxPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units received, count"
+scalar ARPTest.micro_router0.eth[0].mac 	rxPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units received, sum"
+scalar ARPTest.micro_router0.eth[0].mac 	txPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units sent, count"
+scalar ARPTest.micro_router0.eth[0].mac 	txPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units sent, sum"
+scalar ARPTest.micro_router0.eth[0].mac 	rxPkOk:count 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, count"
+scalar ARPTest.micro_router0.eth[0].mac 	rxPkOk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].mac 	txPk:count 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, count"
+scalar ARPTest.micro_router0.eth[0].mac 	txPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.micro_router0.eth[0].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].encap 	pauseSent:count 	0
+attr title  "pause sent, count"
+scalar ARPTest.micro_router0.eth[0].encap 	pauseSent:sum 	0
+attr title  "pause sent, sum"
+scalar ARPTest.micro_router0.eth[0].encap 	decapPk:count 	0
+attr interpolationmode  none
+attr source  decapPk
+attr title  "packets decapsulated, count"
+scalar ARPTest.micro_router0.eth[0].encap 	decapPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  decapPk
+attr title  "packets decapsulated, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[0].encap 	encapPk:count 	0
+attr interpolationmode  none
+attr source  encapPk
+attr title  "packets encapsulated, count"
+scalar ARPTest.micro_router0.eth[0].encap 	encapPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  encapPk
+attr title  "packets encapsulated, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].mac 	"simulated time" 	133.6
+scalar ARPTest.micro_router0.eth[1].mac 	full-duplex 	1
+scalar ARPTest.micro_router0.eth[1].mac 	"frames/sec sent" 	0
+scalar ARPTest.micro_router0.eth[1].mac 	"frames/sec rcvd" 	0
+scalar ARPTest.micro_router0.eth[1].mac 	"bits/sec sent" 	0
+scalar ARPTest.micro_router0.eth[1].mac 	"bits/sec rcvd" 	0
+scalar ARPTest.micro_router0.eth[1].mac 	"rx channel idle (%)" 	100
+scalar ARPTest.micro_router0.eth[1].mac 	"rx channel utilization (%)" 	0
+scalar ARPTest.micro_router0.eth[1].mac 	droppedPkNotForUs:count 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, count"
+scalar ARPTest.micro_router0.eth[1].mac 	droppedPkNotForUs:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].mac 	droppedPkIfaceDown:count 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, count"
+scalar ARPTest.micro_router0.eth[1].mac 	droppedPkIfaceDown:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].mac 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.micro_router0.eth[1].mac 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].mac 	rxPkFromHL:count 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, count"
+scalar ARPTest.micro_router0.eth[1].mac 	rxPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].mac 	rxPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units received, count"
+scalar ARPTest.micro_router0.eth[1].mac 	rxPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units received, sum"
+scalar ARPTest.micro_router0.eth[1].mac 	txPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units sent, count"
+scalar ARPTest.micro_router0.eth[1].mac 	txPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units sent, sum"
+scalar ARPTest.micro_router0.eth[1].mac 	rxPkOk:count 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, count"
+scalar ARPTest.micro_router0.eth[1].mac 	rxPkOk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].mac 	txPk:count 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, count"
+scalar ARPTest.micro_router0.eth[1].mac 	txPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.micro_router0.eth[1].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].encap 	pauseSent:count 	0
+attr title  "pause sent, count"
+scalar ARPTest.micro_router0.eth[1].encap 	pauseSent:sum 	0
+attr title  "pause sent, sum"
+scalar ARPTest.micro_router0.eth[1].encap 	decapPk:count 	0
+attr interpolationmode  none
+attr source  decapPk
+attr title  "packets decapsulated, count"
+scalar ARPTest.micro_router0.eth[1].encap 	decapPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  decapPk
+attr title  "packets decapsulated, sum(packetBytes)"
+scalar ARPTest.micro_router0.eth[1].encap 	encapPk:count 	0
+attr interpolationmode  none
+attr source  encapPk
+attr title  "packets encapsulated, count"
+scalar ARPTest.micro_router0.eth[1].encap 	encapPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  encapPk
+attr title  "packets encapsulated, sum(packetBytes)"
+scalar ARPTest.micro_router1.networkLayer.arp 	failedARPResolution:count 	0
+attr title  "ARP failed resolutions, count"
+scalar ARPTest.micro_router1.networkLayer.arp 	completedARPResolution:count 	0
+attr title  "ARP completed resolutions, count"
+scalar ARPTest.micro_router1.networkLayer.arp 	initiatedARPResolution:count 	0
+attr title  "ARP initiated resolutions, count"
+scalar ARPTest.micro_router1.networkLayer.arp 	sentReply:count 	0
+attr title  "ARP replies sent, count"
+scalar ARPTest.micro_router1.networkLayer.arp 	sentReq:count 	0
+attr title  "ARP request sent, count"
+scalar ARPTest.micro_router1.lo0.lo 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.micro_router1.lo0.lo 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.micro_router1.lo0.lo 	rcvdPkFromHL:count 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, count"
+scalar ARPTest.micro_router1.lo0.lo 	rcvdPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.lo0.lo 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.micro_router1.lo0.lo 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.wlan[0].mac.statistics 	numReceivedUnicast 	0
+scalar ARPTest.micro_router1.wlan[0].mac.statistics 	numReceivedBroadcast 	0
+scalar ARPTest.micro_router1.wlan[0].mac.statistics 	numReceivedMulticast 	0
+scalar ARPTest.micro_router1.wlan[0].mac.statistics 	numReceivedNotForUs 	0
+scalar ARPTest.micro_router1.wlan[0].mac.statistics 	numReceivedErroneous 	0
+scalar ARPTest.micro_router1.wlan[0].mac 	rcvdPkFromLL:count 	0
+attr interpolationmode  none
+attr source  packetReceivedFromLower
+attr title  "packets received from lower layer, count"
+scalar ARPTest.micro_router1.wlan[0].mac 	rcvdPkFromLL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetReceivedFromLower
+attr title  "packets received from lower layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.wlan[0].mac 	sentDownPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToLower
+attr title  "packets sent to lower layer, count"
+scalar ARPTest.micro_router1.wlan[0].mac 	sentDownPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToLower
+attr title  "packets sent to lower layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.wlan[0].mac 	rcvdPkFromHL:count 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, count"
+scalar ARPTest.micro_router1.wlan[0].mac 	rcvdPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetReceivedFromUpper
+attr title  "packets received from higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.wlan[0].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.micro_router1.wlan[0].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.wlan[0].radio 	transmissionState:count 	0
+attr interpolationmode  sample-hold
+attr source  transmissionStateChanged
+attr title  "Radio transmission state, count"
+scalar ARPTest.micro_router1.wlan[0].radio 	receptionState:count 	1
+attr interpolationmode  sample-hold
+attr source  receptionStateChanged
+attr title  "Radio reception state, count"
+scalar ARPTest.micro_router1.wlan[0].radio 	radioMode:count 	2
+attr interpolationmode  sample-hold
+attr source  radioModeChanged
+attr title  "Radio mode, count"
+statistic ARPTest.micro_router1.wlan[0].radio 	symbolErrorRate:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  symbolErrorRate
+attr title  "Symbol error rate, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+statistic ARPTest.micro_router1.wlan[0].radio 	bitErrorRate:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  bitErrorRate
+attr title  "Bit error rate, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+statistic ARPTest.micro_router1.wlan[0].radio 	packetErrorRate:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  packetErrorRate
+attr title  "Packet error rate, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+statistic ARPTest.micro_router1.wlan[0].radio 	minSNIR:histogram
+field count 0
+field mean -nan
+field stddev -nan
+field sum 0
+field sqrsum 0
+field min -nan
+field max -nan
+attr source  minSNIR
+attr title  "Min SNIR, histogram"
+bin	-INF	0
+bin	-0.5	0
+bin	-0.46666666666667	0
+bin	-0.43333333333333	0
+bin	-0.4	0
+bin	-0.36666666666667	0
+bin	-0.33333333333333	0
+bin	-0.3	0
+bin	-0.26666666666667	0
+bin	-0.23333333333333	0
+bin	-0.2	0
+bin	-0.16666666666667	0
+bin	-0.13333333333333	0
+bin	-0.1	0
+bin	-0.066666666666667	0
+bin	-0.033333333333333	0
+bin	0	0
+bin	0.033333333333333	0
+bin	0.066666666666667	0
+bin	0.1	0
+bin	0.13333333333333	0
+bin	0.16666666666667	0
+bin	0.2	0
+bin	0.23333333333333	0
+bin	0.26666666666667	0
+bin	0.3	0
+bin	0.33333333333333	0
+bin	0.36666666666667	0
+bin	0.4	0
+bin	0.43333333333333	0
+bin	0.46666666666667	0
+bin	0.5	0
+scalar ARPTest.micro_router1.eth[0].mac 	"simulated time" 	133.6
+scalar ARPTest.micro_router1.eth[0].mac 	full-duplex 	1
+scalar ARPTest.micro_router1.eth[0].mac 	"frames/sec sent" 	0
+scalar ARPTest.micro_router1.eth[0].mac 	"frames/sec rcvd" 	0
+scalar ARPTest.micro_router1.eth[0].mac 	"bits/sec sent" 	0
+scalar ARPTest.micro_router1.eth[0].mac 	"bits/sec rcvd" 	0
+scalar ARPTest.micro_router1.eth[0].mac 	"rx channel idle (%)" 	100
+scalar ARPTest.micro_router1.eth[0].mac 	"rx channel utilization (%)" 	0
+scalar ARPTest.micro_router1.eth[0].mac 	droppedPkNotForUs:count 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, count"
+scalar ARPTest.micro_router1.eth[0].mac 	droppedPkNotForUs:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].mac 	droppedPkIfaceDown:count 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, count"
+scalar ARPTest.micro_router1.eth[0].mac 	droppedPkIfaceDown:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].mac 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.micro_router1.eth[0].mac 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].mac 	rxPkFromHL:count 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, count"
+scalar ARPTest.micro_router1.eth[0].mac 	rxPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].mac 	rxPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units received, count"
+scalar ARPTest.micro_router1.eth[0].mac 	rxPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units received, sum"
+scalar ARPTest.micro_router1.eth[0].mac 	txPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units sent, count"
+scalar ARPTest.micro_router1.eth[0].mac 	txPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units sent, sum"
+scalar ARPTest.micro_router1.eth[0].mac 	rxPkOk:count 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, count"
+scalar ARPTest.micro_router1.eth[0].mac 	rxPkOk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].mac 	txPk:count 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, count"
+scalar ARPTest.micro_router1.eth[0].mac 	txPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.micro_router1.eth[0].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].encap 	pauseSent:count 	0
+attr title  "pause sent, count"
+scalar ARPTest.micro_router1.eth[0].encap 	pauseSent:sum 	0
+attr title  "pause sent, sum"
+scalar ARPTest.micro_router1.eth[0].encap 	decapPk:count 	0
+attr interpolationmode  none
+attr source  decapPk
+attr title  "packets decapsulated, count"
+scalar ARPTest.micro_router1.eth[0].encap 	decapPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  decapPk
+attr title  "packets decapsulated, sum(packetBytes)"
+scalar ARPTest.micro_router1.eth[0].encap 	encapPk:count 	0
+attr interpolationmode  none
+attr source  encapPk
+attr title  "packets encapsulated, count"
+scalar ARPTest.micro_router1.eth[0].encap 	encapPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  encapPk
+attr title  "packets encapsulated, sum(packetBytes)"
+scalar ARPTest.radioMedium.propagation 	"Arrival computation count" 	0
+scalar ARPTest.radioMedium 	"transmission count" 	0
+scalar ARPTest.radioMedium 	"radio frame send count" 	0
+scalar ARPTest.radioMedium 	"reception computation count" 	0
+scalar ARPTest.radioMedium 	"interference computation count" 	2
+scalar ARPTest.radioMedium 	"reception decision computation count" 	0
+scalar ARPTest.radioMedium 	"listening decision computation count" 	2
+scalar ARPTest.radioMedium 	"reception cache hit" 	-nan
+attr unit  %
+scalar ARPTest.radioMedium 	"interference cache hit" 	-nan
+attr unit  %
+scalar ARPTest.radioMedium 	"noise cache hit" 	-nan
+attr unit  %
+scalar ARPTest.radioMedium 	"snir cache hit" 	-nan
+attr unit  %
+scalar ARPTest.radioMedium 	"reception decision cache hit" 	-nan
+attr unit  %
+scalar ARPTest.radioMedium 	"reception result cache hit" 	-nan
+attr unit  %
+scalar ARPTest.switch1.relayUnit 	"number of received BPDUs from STP module" 	0
+scalar ARPTest.switch1.relayUnit 	"number of received frames from network (including BPDUs)" 	0
+scalar ARPTest.switch1.relayUnit 	"number of dropped frames (including BPDUs)" 	0
+scalar ARPTest.switch1.relayUnit 	"number of delivered BPDUs to the STP module" 	0
+scalar ARPTest.switch1.relayUnit 	"number of dispatched BPDU frames to the network" 	0
+scalar ARPTest.switch1.relayUnit 	"number of dispatched non-BDPU frames to the network" 	0
+scalar ARPTest.switch1.eth[0].mac 	"simulated time" 	133.6
+scalar ARPTest.switch1.eth[0].mac 	full-duplex 	1
+scalar ARPTest.switch1.eth[0].mac 	"frames/sec sent" 	0
+scalar ARPTest.switch1.eth[0].mac 	"frames/sec rcvd" 	0
+scalar ARPTest.switch1.eth[0].mac 	"bits/sec sent" 	0
+scalar ARPTest.switch1.eth[0].mac 	"bits/sec rcvd" 	0
+scalar ARPTest.switch1.eth[0].mac 	"rx channel idle (%)" 	100
+scalar ARPTest.switch1.eth[0].mac 	"rx channel utilization (%)" 	0
+scalar ARPTest.switch1.eth[0].mac 	"rx channel collision (%)" 	0
+scalar ARPTest.switch1.eth[0].mac 	collisions 	0
+scalar ARPTest.switch1.eth[0].mac 	backoffs 	0
+scalar ARPTest.switch1.eth[0].mac 	droppedPkNotForUs:count 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, count"
+scalar ARPTest.switch1.eth[0].mac 	droppedPkNotForUs:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, sum(packetBytes)"
+scalar ARPTest.switch1.eth[0].mac 	droppedPkIfaceDown:count 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, count"
+scalar ARPTest.switch1.eth[0].mac 	droppedPkIfaceDown:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, sum(packetBytes)"
+scalar ARPTest.switch1.eth[0].mac 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.switch1.eth[0].mac 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.switch1.eth[0].mac 	rxPkFromHL:count 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, count"
+scalar ARPTest.switch1.eth[0].mac 	rxPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, sum(packetBytes)"
+scalar ARPTest.switch1.eth[0].mac 	rxPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units received, count"
+scalar ARPTest.switch1.eth[0].mac 	rxPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units received, sum"
+scalar ARPTest.switch1.eth[0].mac 	txPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units sent, count"
+scalar ARPTest.switch1.eth[0].mac 	txPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units sent, sum"
+scalar ARPTest.switch1.eth[0].mac 	rxPkOk:count 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, count"
+scalar ARPTest.switch1.eth[0].mac 	rxPkOk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, sum(packetBytes)"
+scalar ARPTest.switch1.eth[0].mac 	txPk:count 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, count"
+scalar ARPTest.switch1.eth[0].mac 	txPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, sum(packetBytes)"
+scalar ARPTest.switch1.eth[0].mac 	backoff:count 	0
+attr interpolationmode  none
+attr title  "backoff, count"
+scalar ARPTest.switch1.eth[0].mac 	collision:count 	0
+attr interpolationmode  none
+attr title  "collision, count"
+scalar ARPTest.switch1.eth[0].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.switch1.eth[0].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.switch1.eth[1].mac 	"simulated time" 	133.6
+scalar ARPTest.switch1.eth[1].mac 	full-duplex 	1
+scalar ARPTest.switch1.eth[1].mac 	"frames/sec sent" 	0
+scalar ARPTest.switch1.eth[1].mac 	"frames/sec rcvd" 	0
+scalar ARPTest.switch1.eth[1].mac 	"bits/sec sent" 	0
+scalar ARPTest.switch1.eth[1].mac 	"bits/sec rcvd" 	0
+scalar ARPTest.switch1.eth[1].mac 	"rx channel idle (%)" 	100
+scalar ARPTest.switch1.eth[1].mac 	"rx channel utilization (%)" 	0
+scalar ARPTest.switch1.eth[1].mac 	"rx channel collision (%)" 	0
+scalar ARPTest.switch1.eth[1].mac 	collisions 	0
+scalar ARPTest.switch1.eth[1].mac 	backoffs 	0
+scalar ARPTest.switch1.eth[1].mac 	droppedPkNotForUs:count 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, count"
+scalar ARPTest.switch1.eth[1].mac 	droppedPkNotForUs:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, sum(packetBytes)"
+scalar ARPTest.switch1.eth[1].mac 	droppedPkIfaceDown:count 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, count"
+scalar ARPTest.switch1.eth[1].mac 	droppedPkIfaceDown:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, sum(packetBytes)"
+scalar ARPTest.switch1.eth[1].mac 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.switch1.eth[1].mac 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.switch1.eth[1].mac 	rxPkFromHL:count 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, count"
+scalar ARPTest.switch1.eth[1].mac 	rxPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, sum(packetBytes)"
+scalar ARPTest.switch1.eth[1].mac 	rxPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units received, count"
+scalar ARPTest.switch1.eth[1].mac 	rxPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units received, sum"
+scalar ARPTest.switch1.eth[1].mac 	txPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units sent, count"
+scalar ARPTest.switch1.eth[1].mac 	txPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units sent, sum"
+scalar ARPTest.switch1.eth[1].mac 	rxPkOk:count 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, count"
+scalar ARPTest.switch1.eth[1].mac 	rxPkOk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, sum(packetBytes)"
+scalar ARPTest.switch1.eth[1].mac 	txPk:count 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, count"
+scalar ARPTest.switch1.eth[1].mac 	txPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, sum(packetBytes)"
+scalar ARPTest.switch1.eth[1].mac 	backoff:count 	0
+attr interpolationmode  none
+attr title  "backoff, count"
+scalar ARPTest.switch1.eth[1].mac 	collision:count 	0
+attr interpolationmode  none
+attr title  "collision, count"
+scalar ARPTest.switch1.eth[1].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.switch1.eth[1].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.switch1.eth[2].mac 	"simulated time" 	133.6
+scalar ARPTest.switch1.eth[2].mac 	full-duplex 	1
+scalar ARPTest.switch1.eth[2].mac 	"frames/sec sent" 	0
+scalar ARPTest.switch1.eth[2].mac 	"frames/sec rcvd" 	0
+scalar ARPTest.switch1.eth[2].mac 	"bits/sec sent" 	0
+scalar ARPTest.switch1.eth[2].mac 	"bits/sec rcvd" 	0
+scalar ARPTest.switch1.eth[2].mac 	"rx channel idle (%)" 	100
+scalar ARPTest.switch1.eth[2].mac 	"rx channel utilization (%)" 	0
+scalar ARPTest.switch1.eth[2].mac 	"rx channel collision (%)" 	0
+scalar ARPTest.switch1.eth[2].mac 	collisions 	0
+scalar ARPTest.switch1.eth[2].mac 	backoffs 	0
+scalar ARPTest.switch1.eth[2].mac 	droppedPkNotForUs:count 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, count"
+scalar ARPTest.switch1.eth[2].mac 	droppedPkNotForUs:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkNotForUs
+attr title  "packets dropped/not for us, sum(packetBytes)"
+scalar ARPTest.switch1.eth[2].mac 	droppedPkIfaceDown:count 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, count"
+scalar ARPTest.switch1.eth[2].mac 	droppedPkIfaceDown:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkIfaceDown
+attr title  "packets dropped/interface down, sum(packetBytes)"
+scalar ARPTest.switch1.eth[2].mac 	droppedPkBitError:count 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, count"
+scalar ARPTest.switch1.eth[2].mac 	droppedPkBitError:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  dropPkBitError
+attr title  "packets dropped/bit error, sum(packetBytes)"
+scalar ARPTest.switch1.eth[2].mac 	rxPkFromHL:count 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, count"
+scalar ARPTest.switch1.eth[2].mac 	rxPkFromHL:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkFromHL
+attr title  "packet bytes from higher layer, sum(packetBytes)"
+scalar ARPTest.switch1.eth[2].mac 	rxPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units received, count"
+scalar ARPTest.switch1.eth[2].mac 	rxPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units received, sum"
+scalar ARPTest.switch1.eth[2].mac 	txPausePkUnits:count 	0
+attr interpolationmode  none
+attr title  "pause units sent, count"
+scalar ARPTest.switch1.eth[2].mac 	txPausePkUnits:sum 	0
+attr interpolationmode  none
+attr title  "pause units sent, sum"
+scalar ARPTest.switch1.eth[2].mac 	rxPkOk:count 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, count"
+scalar ARPTest.switch1.eth[2].mac 	rxPkOk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  rxPkOk
+attr title  "packets received OK, sum(packetBytes)"
+scalar ARPTest.switch1.eth[2].mac 	txPk:count 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, count"
+scalar ARPTest.switch1.eth[2].mac 	txPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  txPk
+attr title  "packets transmitted, sum(packetBytes)"
+scalar ARPTest.switch1.eth[2].mac 	backoff:count 	0
+attr interpolationmode  none
+attr title  "backoff, count"
+scalar ARPTest.switch1.eth[2].mac 	collision:count 	0
+attr interpolationmode  none
+attr title  "collision, count"
+scalar ARPTest.switch1.eth[2].mac 	passedUpPk:count 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, count"
+scalar ARPTest.switch1.eth[2].mac 	passedUpPk:sum(packetBytes) 	0
+attr interpolationmode  none
+attr source  packetSentToUpper
+attr title  "packets passed to higher layer, sum(packetBytes)"
+scalar ARPTest.node0 	"#Total Bytes Sent" 	0
+scalar ARPTest.node0 	"#total Bytes Received" 	0
+scalar ARPTest.node0 	"#Simulation Time (sec)" 	133.6
+scalar ARPTest.node0 	"#Bw sent utilization in KBytes per sec" 	0
+scalar ARPTest.node1 	"#Total Bytes Sent" 	0
+scalar ARPTest.node1 	"#total Bytes Received" 	0
+scalar ARPTest.node1 	"#Simulation Time (sec)" 	133.6
+scalar ARPTest.node1 	"#Bw sent utilization in KBytes per sec" 	0
+scalar ARPTest.node2 	"#Total Bytes Sent" 	0
+scalar ARPTest.node2 	"#total Bytes Received" 	0
+scalar ARPTest.node2 	"#Simulation Time (sec)" 	133.6
+scalar ARPTest.node2 	"#Bw sent utilization in KBytes per sec" 	0
+scalar ARPTest.node3 	"#Total Bytes Sent" 	0
+scalar ARPTest.node3 	"#total Bytes Received" 	0
+scalar ARPTest.node3 	"#Simulation Time (sec)" 	133.6
+scalar ARPTest.node3 	"#Bw sent utilization in KBytes per sec" 	0

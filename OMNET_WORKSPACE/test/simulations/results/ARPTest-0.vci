@@ -1,0 +1,81 @@
+file 3560 1516895614                                            
+version 2
+run ARPTest-0-20180125-17:47:16-19323
+attr configname ARPTest
+attr datetime 20180125-17:47:16
+attr experiment ARPTest
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network ARPTest
+attr processid 19323
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param *.configurator.addStaticRoutes false
+param *.micro_router*.energyStorageType "\"IdealEnergyStorage\""
+param *.micro_router*.wlan[0].radio.bandwidth 2MHz
+param *.micro_router*.wlan[0].radio.carrierFrequency 2GHz
+param *.micro_router*.wlan[0].radio.energyConsumer.offPowerConsumption 0mW
+param *.micro_router*.wlan[0].radio.energyConsumer.receiverBusyPowerConsumption 5mW
+param *.micro_router*.wlan[0].radio.energyConsumer.receiverIdlePowerConsumption 2mW
+param *.micro_router*.wlan[0].radio.energyConsumer.receiverReceivingPowerConsumption 10mW
+param *.micro_router*.wlan[0].radio.energyConsumer.sleepPowerConsumption 1mW
+param *.micro_router*.wlan[0].radio.energyConsumer.switchingPowerConsumption 1mW
+param *.micro_router*.wlan[0].radio.energyConsumer.transmitterTransmittingPowerConsumption 100mW
+param *.micro_router*.wlan[0].radio.energyConsumerType "\"StateBasedEnergyConsumer\""
+param *.micro_router*.wlan[0].radio.receiver.energyDetection -85dBm
+param *.micro_router*.wlan[0].radio.receiver.sensitivity -85dBm
+param *.micro_router*.wlan[0].radio.receiver.snirThreshold 4dB
+param *.micro_router*.wlan[0].radio.transmitter.communicationRange 250m
+param *.micro_router*.wlan[0].radio.transmitter.headerBitLength 0b
+param *.micro_router*.wlan[0].radio.transmitter.power 1.4mW
+param *.micro_router*.wlan[0].radio.transmitter.preambleDuration 10us
+param *.micro_router*.wlan[0].radio.typename "\"IdealWirelessNic\""
+param *.micro_router*.wlan[0].radioType "\"APSKScalarRadio\""
+param ARPTest.micro_router0.routingTable.routingFile "\"whost0.mrt\""
+param ARPTest.micro_router1.routingTable.routingFile "\"whost1.mrt\""
+
+vector 15  ARPTest.micro_router0.wlan[0].mac.ctn[0]  state:vector  ETV
+attr interpolationmode  none
+attr source  stateChanged
+attr title  "contention state, vector"
+vector 0  ARPTest.micro_router0.energyStorage  powerConsumption:vector  ETV
+attr interpolationmode  sample-hold
+attr source  powerConsumptionChanged
+attr title  "Power consumption, vector"
+vector 56  ARPTest.micro_router1.wlan[0].mac.ctn[0]  state:vector  ETV
+attr interpolationmode  none
+attr source  stateChanged
+attr title  "contention state, vector"
+vector 41  ARPTest.micro_router1.energyStorage  powerConsumption:vector  ETV
+attr interpolationmode  sample-hold
+attr source  powerConsumptionChanged
+attr title  "Power consumption, vector"
+vector 12  ARPTest.micro_router0.wlan[0].radio  radioMode:vector  ETV
+attr interpolationmode  sample-hold
+attr source  radioModeChanged
+attr title  "Radio mode, vector"
+vector 53  ARPTest.micro_router1.wlan[0].radio  radioMode:vector  ETV
+attr interpolationmode  sample-hold
+attr source  radioModeChanged
+attr title  "Radio mode, vector"
+vector 13  ARPTest.micro_router0.wlan[0].radio  receptionState:vector  ETV
+attr interpolationmode  sample-hold
+attr source  receptionStateChanged
+attr title  "Radio reception state, vector"
+vector 54  ARPTest.micro_router1.wlan[0].radio  receptionState:vector  ETV
+attr interpolationmode  sample-hold
+attr source  receptionStateChanged
+attr title  "Radio reception state, vector"
+0	3417 8 0 0 0 0 1 0 0 0 0
+12	3425 18 0 0 0 0 2 0 2 2 4
+13	3443 9 0 0 0 0 1 1 1 1 1
+15	3452 36 0 0 0 0 4 0 0 0 0
+41	3488 9 0 0 0 0 1 0 0 0 0
+53	3497 18 0 0 0 0 2 0 2 2 4
+54	3515 9 0 0 0 0 1 1 1 1 1
+56	3524 36 0 0 0 0 4 0 0 0 0

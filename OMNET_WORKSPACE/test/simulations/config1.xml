@@ -1,0 +1,8 @@
+
+ 
+<config>
+    //<interface hosts="ARPTest.WirelessHost0.eth[0]" address="10.0.1.1" netmask="255.255.255.0"/>
+    <interface hosts='**' address="10.0.x.x" netmask="255.255.255.0"/>
+    <autoroute metric='errorRate'/>
+</config>
+ 

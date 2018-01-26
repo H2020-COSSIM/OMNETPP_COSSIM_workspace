@@ -1,0 +1,17 @@
+ifconfig:
+ 
+#name: eth0    inet_addr:  10.0.1.1   MTU: 1500   Metric: 1  BROADCAST MULTICAST
+#name: wlan0   inet_addr: 10.0.0.1   MTU: 2304   Metric: 1  BROADCAST MULTICAST
+
+ifconfigend.
+
+#Destination  Gateway  Netmask  Flags  Metric Interface
+route:
+#micro_router1_eth0 (base ip) , micro_router1_wlan0 (if packet goes to remote eth0 send it to nearest wlan adapter)
+10.0.3.0   10.0.0.2     255.255.255.0      G  0   wlan0
+
+#micro_router0_eth0 (base ip), broadcast everywhere in the subnet
+10.0.1.0   *     255.255.255.0  H  0   eth0
+10.0.2.0   *     255.255.255.0  H  0   eth1 
+
+routeend.

@@ -1,0 +1,95 @@
+//
+// Copyright (C) 2006 Andras Varga
+//
+// This library is free software, you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation;
+// either version 2 of the License, or any later version.
+// The library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+
+
+package test.simulations;
+
+import HLANode.SyncNode;
+import HLANode.Txc0;
+import HLANode.Txc1;
+import HLANode.Txc2;
+import HLANode.Txc3;
+
+import inet.node.ethernet.EtherSwitch;
+import ned.DatarateChannel;
+
+import inet.node.inet.Router;
+import inet.networklayer.configurator.ipv4.IPv4NetworkConfigurator;
+
+
+
+network ARPTest
+{
+    types:
+
+
+        channel ethline_slow extends DatarateChannel
+        {
+            delay = 10ms;
+            datarate = 100Mbps;
+        }
+    submodules:
+
+         switch1: EtherSwitch {
+           @display("p=202,156");
+        }
+
+        switch2: EtherSwitch {
+
+        }
+
+        router: Router {
+            @display("p=411,414");
+        }
+  
+
+        configurator: IPv4NetworkConfigurator {
+            config = default(xml("<config><interface hosts='router*' address='10.0.x.1' netmask='255.255.255.0'/>   </config>"));
+        }
+
+
+        node0: Txc0 {
+            parameters:
+                @display("i=device/server_l");
+        }
+        node1: Txc1 {
+            parameters:
+                @display("i=device/pc");
+        }
+        node2: Txc2 {
+            parameters:
+                @display("i=device/pc");
+        }
+        node3: Txc3{
+            parameters:
+                @display("i=device/pc");
+        }
+        
+        syncnode: SyncNode {
+            parameters:
+                @display("i=,red");
+        }
+
+    connections:
+        syncnode.out --> {  delay = 0ms; } --> syncnode.in;
+        node0.gate <--> ethline_slow <--> switch1.ethg++;
+        node2.gate <--> ethline_slow <--> switch1.ethg++;
+        
+        node1.gate <--> ethline_slow <-->  switch2.ethg++;
+        node3.gate <--> ethline_slow <-->  switch2.ethg++;
+        
+        switch1.ethg++ <--> ethline_slow <--> router.ethg++;
+        switch2.ethg++ <--> ethline_slow <--> router.ethg++;
+ 
+}
+

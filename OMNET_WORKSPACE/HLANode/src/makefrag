@@ -1,0 +1,28 @@
+#------------------------------------------------------------------------------
+ 
+
+# The top-level source directory on which CMake was run.
+CERTI_SOURCE_DIR = $(value CERTI_SOURCE_DIRECTORY)
+
+# The top-level build directory on which CMake was run.
+CERTI_BINARY_DIR = $(value CERTI_BINARY_DIRECTORY)
+
+ 
+
+# ----------------------- FLAGS ----------------------- #
+
+CXX_FLAGS_HLA = -I$(CERTI_SOURCE_DIR)/include -I$(CERTI_SOURCE_DIR)/libCERTI -I/usr/include/libxml2 \
+-I$(CERTI_BINARY_DIR)/include -I$(CERTI_BINARY_DIR) -I$(CERTI_SOURCE_DIR)/libHLA \
+-I$(CERTI_SOURCE_DIR)/include/hla-1_3 -I$(CERTI_BINARY_DIR)/include/hla-1_3    -DHLA13 -I/lib/x86_64-linux-gnu -std=c++11
+
+CXX_DEFINES_HLA = -DHAVE_CONFIG_H=1 -DHAVE_XML -DHOST_IS_64BITS -DRTI_USES_STD_FSTREAM
+
+LINK_FLAGS_HLA = -rdynamic $(CERTI_BINARY_DIR)/libRTI/hla-1_3/libRTI-NGd.so.1.0.0 $(CERTI_BINARY_DIR)/libCERTI/libCERTId.so.3.4.3 \
+	-lxml2 $(CERTI_BINARY_DIR)/libHLA/libHLAd.so.3.4.3 -lrt $(CERTI_BINARY_DIR)/libRTI/hla-1_3/libFedTimed.so.1.0.0 \
+	-Wl,-rpath,$(CERTI_BINARY_DIR)/libRTI/hla-1_3:$(CERTI_BINARY_DIR)/libCERTI:$(CERTI_BINARY_DIR)/libHLA
+
+COPTS += $(CXXFLAGS) $(CXX_DEFINES_HLA) $(CXX_FLAGS_HLA)
+EXTRA_OBJS+=$(LINK_FLAGS_HLA)
+
+# --------------------- END FLAGS --------------------- #
+#-------------------------------.-----------------------------------------------

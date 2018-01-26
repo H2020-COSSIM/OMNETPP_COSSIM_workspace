@@ -1,0 +1,9 @@
+17:55:42 **** Clean-only build of configuration gcc-debug for project test ****
+make MODE=debug CONFIGNAME=gcc-debug clean 
+cd src && make clean
+make[1]: Entering directory `/home/cossim/OMNET_WORKSPACE/test/src'
+Cleaning...
+make[1]: Leaving directory `/home/cossim/OMNET_WORKSPACE/test/src'
+
+17:55:42 Build Finished (took 73ms)
+
