@@ -6,7 +6,9 @@ All modifications required to extend the functionality of the OMNET++/OMNEST net
 
 - `INET 3.2.4` version which is required by COSSIM to model real networks. 
 - `HLANode` project which interconnects the OMNET++ with the cgem5 through HLA.
-- `test` project which contains a basic demo with 4 simulated nodes using both Ethernet and Wireless networks.
+- `test` project which contains a basic demo with 4 simulated nodes using both Ethernet and Wireless networks. 
+
+Please refer to [COSSIM _framework](https://github.com/H2020-COSSIM/COSSIM_framework) repository for more details.
 
 
 ## Build the OMNET_WORKSPACE
