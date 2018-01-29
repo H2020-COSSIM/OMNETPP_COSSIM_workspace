@@ -2,7 +2,7 @@
 
 All modifications required to extend the functionality of the OMNET++/OMNEST network simulator to work with the COSSIM framework. 
 
-## What is contained in the WORKSPACE?
+## What is contained in the COSSIM OMNET WORKSPACE?
 
 - `INET 3.2.4` version which is required by COSSIM to model real networks. 
 - `HLANode` project which interconnects the OMNET++ with the cgem5 through HLA.
@@ -11,7 +11,7 @@ All modifications required to extend the functionality of the OMNET++/OMNEST net
 Please refer to [COSSIM _framework](https://github.com/H2020-COSSIM/COSSIM_framework) repository for more details.
 
 
-## Build the OMNET_WORKSPACE
+## Build the COSSIM OMNET_WORKSPACE
 
 - Select Project -> Clean -> Clean Projects Selected Below -> Select “INET” -> Select “Start a build immediately” -> Select “Build only the selected projects” -> Press “OK”
 - Select Project -> Clean -> Clean Projects Selected Below -> Select “HLANode” & “test” -> Select “Start a build immediately” -> Select “Build only the selected projects” -> Press “OK”
