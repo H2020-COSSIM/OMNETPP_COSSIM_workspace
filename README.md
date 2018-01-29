@@ -13,8 +13,8 @@ Please refer to [COSSIM _framework](https://github.com/H2020-COSSIM/COSSIM_frame
 
 ## Build the OMNET_WORKSPACE
 
-- Select Project -> Clean -> Select “INET” -> Select “Start a build immediately” -> Select “Build only the selected projects” -> Press “OK”
-- Select Project -> Clean -> Select “HLANode” & “test” -> Select “Start a build immediately” -> Select “Build only the selected projects” -> Press “OK”
+- Select Project -> Clean -> Clean Projects Selected Below -> Select “INET” -> Select “Start a build immediately” -> Select “Build only the selected projects” -> Press “OK”
+- Select Project -> Clean -> Clean Projects Selected Below -> Select “HLANode” & “test” -> Select “Start a build immediately” -> Select “Build only the selected projects” -> Press “OK”
 
 ## Using OMNET_WORKSPACE in the context of the COSSIM simulation framework
 
