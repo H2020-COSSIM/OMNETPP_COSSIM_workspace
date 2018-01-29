@@ -1,6 +1,6 @@
 # COSSIM OMNETPP WORKSPACE 
 
-COSSIM OMNETPP WORKSPACE implements a basic demo with 4 simulated nodes which are connected through Ethernet and Wireless networks. In addition, it contains all modifications required to extend the functionality of the OMNET++ network simulator to work with the COSSIM framework. 
+COSSIM OMNETPP WORKSPACE implements a basic demo with 4 simulated nodes which are connected through Ethernet and Wireless networks. In addition, it contains all modifications required to extend the functionality of the OMNET++ network simulator to work with the COSSIM framework based on INET 3.2.4 version.
 
 ## Introduction
 The key idea behind OMNeT++ integration into COSSIM simulator was to support real protocol stacks (i.e linux), although they were not natively supported by it, and at the same time, preserving 100% compatibility with its legacy. Towards this direction, we had to implement a transparent procedure (a special form of node) of encapsulation/decapsulation from the cGEM5 binary Ethernet packet into a compatible form always comprehensible from the OMNeT++ protocol stack.
