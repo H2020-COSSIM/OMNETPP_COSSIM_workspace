@@ -10,6 +10,7 @@
 
 #ifndef __HLA_NODE_TCX_H
 #define __HLA_NODE_TCX_H
+//#define DEBUG_MSG
 //#define NO_HLA
 
 #include <typeinfo>
@@ -99,7 +100,7 @@ public:
     int NODE_NO;
 
     double RX_PACKET_TIME;
-int a;
+
     string federationName;
 
     string federate = "OMNET" ;
@@ -114,13 +115,14 @@ int a;
     bool L2_Routing= false;
     bool send_packet= false;
     bool TOGGLE= true;
+#ifdef DEBUG_MSG
     //----CRC stuff
     #define POLYNOMIAL 0x8408
     unsigned short  crcTable[256];
 
     virtual void  CRC_Init();
     virtual unsigned short CRC_Calculate(const uint8_t *message, int nBytes);
-
+#endif
     virtual void HLA_initialization(int);
 
     virtual void initialize();

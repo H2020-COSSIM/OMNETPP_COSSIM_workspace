@@ -138,7 +138,7 @@ public:
         throw (RTI::FederateInternalError);
 
     void timeAdvanceGrant(const RTI::FedTime& theTime)
-        throw (RTI::FederateInternalError, RTI::TimeAdvanceWasNotInProgress, 
+        throw (RTI::FederateInternalError, RTI::TimeAdvanceWasNotInProgress,
 	       RTI::InvalidFederationTime);
 
     void discoverObjectInstance(RTI::ObjectHandle theObject,
@@ -153,17 +153,17 @@ public:
 
 
     void receiveInteraction(RTI::InteractionClassHandle theInteraction,
-                            const RTI::ParameterHandleValuePairSet& theParameters,
-                            const RTI::FedTime& theTime, const char *theTag,
-                            RTI::EventRetractionHandle theHandle)
-        throw (RTI::InteractionClassNotKnown, RTI::InteractionParameterNotKnown,
-               RTI::InvalidFederationTime, RTI::FederateInternalError){ };
+                                const RTI::ParameterHandleValuePairSet& theParameters,
+                                const RTI::FedTime& theTime, const char *theTag,
+                                RTI::EventRetractionHandle theHandle)
+            throw (RTI::InteractionClassNotKnown, RTI::InteractionParameterNotKnown,
+                   RTI::InvalidFederationTime, RTI::FederateInternalError);
 
-    void receiveInteraction(RTI::InteractionClassHandle,
-                            const RTI::ParameterHandleValuePairSet &,
-                            const char *)
-        throw (RTI::InteractionClassNotKnown, RTI::InteractionParameterNotKnown,
-	       RTI::FederateInternalError);
+        void receiveInteraction(RTI::InteractionClassHandle,
+                                const RTI::ParameterHandleValuePairSet &,
+                                const char *)
+            throw (RTI::InteractionClassNotKnown, RTI::InteractionParameterNotKnown,
+               RTI::FederateInternalError) { };
 
     void removeObjectInstance(RTI::ObjectHandle theObject, const RTI::FedTime& theTime,
 			      const char *theTag,
@@ -182,7 +182,6 @@ public:
   
   
 protected:
-    //virtual void getHandles();
  
     RTI::RTIambassador rtiamb ;
 
@@ -206,13 +205,6 @@ protected:
     
     bool paused ;
     bool granted ;
-
-    // Handles
-//    RTI::ObjectClassHandle BilleClassID ;
-//    RTI::ObjectClassHandle BouleClassID ;
-//    RTI::AttributeHandle AttrXID ;
-//    RTI::AttributeHandle AttrYID ;
-//    RTI::AttributeHandle AttrColorID ;
     
     
     //Node to OMNET++

@@ -39,7 +39,7 @@ static PrettyDebug D("HLA_OMNET", __FILE__);
 /** Constructor
  */
 HLA_OMNET::HLA_OMNET(std::string federate_name, int node, int _TotalNodes)
-    : rtiamb(federate_name, node, _TotalNodes),
+    : rtiamb(),
       federateName(federate_name),
       Node(node),
       TotalNodes(_TotalNodes),
@@ -54,7 +54,7 @@ HLA_OMNET::HLA_OMNET(std::string federate_name, int node, int _TotalNodes)
 
     if (federate_name.compare("SYNCH_OMNET") == 0){
       //! --- CERTI INITIALIZATION IP --- !//
-      /****** Create Signal Files (HLA initialization) *****/
+      /****** Create COSSIM Signal Files (HLA initialization) *****/
       HLAInitializationRequest tmp;
       tmp.type = CREATE;
       tmp.node = TotalNodes;
@@ -67,7 +67,26 @@ HLA_OMNET::HLA_OMNET(std::string federate_name, int node, int _TotalNodes)
       tmp.node = TotalNodes+1;
       strcpy(tmp.name, "GlobalSynchSignal");
       RequestFunction(tmp);
-      /****** END Create Signal Files (HLA initialization) *****/
+      /****** END Create COSSIM Signal Files (HLA initialization) *****/
+
+      /****** Create APOLLON Signal Files (HLA initialization) *****/
+      /* REMOVE ANY OLD CONFIGURATION */
+      tmp.type = REMOVE;
+      strcpy(tmp.name, "PtolemyToGem5Signal");
+      RequestFunction(tmp);
+
+      strcpy(tmp.name, "Gem5ToPtolemySignal");
+      RequestFunction(tmp);
+      /* END REMOVE ANY OLD CONFIGURATION */
+
+      tmp.type = CREATE;
+      tmp.node = TotalNodes;
+      strcpy(tmp.name, "PtolemyToGem5Signal");
+      RequestFunction(tmp);
+
+      strcpy(tmp.name, "Gem5ToPtolemySignal");
+      RequestFunction(tmp);
+      /****** END Create APOLLON Signal Files (HLA initialization) *****/
       //! --- END CERTI INITIALIZATION IP --- !//
     }
 
@@ -87,7 +106,7 @@ HLA_OMNET::~HLA_OMNET()
 //          ------------ INITIALIZATION FUNCTIONS ------------
 // ============================================================================
 
-//! GLOBAL SYNCH CHANGES 18/01/2016 !//
+//! GLOBAL SYNCH CHANGES !//
 
 void 
 HLA_OMNET::HLAInitialization(std::string federation, std::string fedfile, bool start_constrained, bool start_regulating){
@@ -133,7 +152,6 @@ HLA_OMNET::HLAInitialization(std::string federation, std::string fedfile, bool s
       system("rm -rf $GEM5/McPat/mcpatNode*");
       system("rm -rf $GEM5/McPat/mcpatOutput*");
       system("rm -rf $GEM5/McPat/energy*");
-
 
       //! Execute the Gem5.sh !//
       char* pPath = getenv ("GEM5");
@@ -213,16 +231,16 @@ HLA_OMNET::join(std::string federation_name, std::string fdd_name)
     try {
         rtiamb.createFederationExecution(federation_name.c_str(),
                                          fdd_name.c_str());
-        D.Out(pdInit, "Federation execution created.");
+        Debug(D, pdInit) << "Federation execution created." << std::endl;
         creator = true ;
     }
     catch (RTI::FederationExecutionAlreadyExists& e) {
         printf("HLA_OMNET Note : %s Reason is : %s. OK I can join it\n",e._name,e._reason);
-        D.Out(pdInit, "Federation execution already created.");
+        Debug(D, pdInit) << "Federation execution already created." << std::endl;
     }
     catch (RTI::CouldNotOpenFED& e) {
         printf("HLA_OMNET ERROR : %s Reason is : %s\n",e._name,e._reason);
-        D.Out(pdExcept, "HLA_OMNET : Could not use FED file.");
+        Debug(D, pdExcept) << "HLA_OMNET : Could not use FED file." << std::endl;
         delete &rtiamb ; // Says RTIA to stop.
         exit(0);
     }
@@ -247,14 +265,12 @@ HLA_OMNET::join(std::string federation_name, std::string fdd_name)
             throw ;
         }
         catch (RTI::FederationExecutionDoesNotExist& e) {
-            D.Out(pdExcept, "Federate %s : FederationExecutionDoesNotExist.",
-                  federateName.c_str());
+            Debug(D, pdExcept) << "Federate " << federateName << ": FederationExecutionDoesNotExist." << std::endl;
             // sleep(1);
         }
         catch (RTI::Exception& e) {
-            D.Out(pdExcept,
-                  "Federate %s :Join Federation Execution failed : %d .",
-                  federateName.c_str(), &e);
+            Debug(D, pdExcept) << "Federate " << federateName << " : Join Federation Execution failed : " << &e
+                                           << std::endl;
             throw ;
         }
     }
@@ -270,35 +286,34 @@ HLA_OMNET::resign()
 {
     try {
         rtiamb.deleteObjectInstance(ID, localTime, "DO");
-        D.Out(pdRegister, "Local object deleted from federation.");
+        Debug(D, pdRegister) << "Local object deleted from federation." << std::endl;
     }
     catch (RTI::Exception &e) {
-        D.Out(pdExcept, "**** Exception delete object : %d", &e);
+        Debug(D, pdExcept) << "**** Exception delete object : " << &e << std::endl;
     }
 
-    D.Out(pdTerm, "Local objects deleted.");
+    Debug(D, pdTerm) << "Local objects deleted." << std::endl;
 
     setTimeRegulation(false, false);
 
     try {
         rtiamb.resignFederationExecution(
             RTI::DELETE_OBJECTS_AND_RELEASE_ATTRIBUTES);
-        D.Out(pdTerm, "Just resigned from federation");
+        Debug(D, pdTerm) << "Just resigned from federation" << std::endl;
     }
     catch (RTI::Exception &e) {
-        D.Out(pdExcept,
-              "** Exception during resignFederationExecution by federate");
+        Debug(D, pdExcept) << "** Exception during resignFederationExecution by federate" << std::endl;
     }
-    // Detruire la federation
+    // Destroy the federation
 
     if (creator) {
         for (;;) {
             tick();
             try {
-                D.Out(pdTerm, "Asking from federation destruction...");
+                Debug(D, pdTerm) << "Asking from federation destruction..." << std::endl;
                 rtiamb.destroyFederationExecution(federationName.c_str());
 
-                D.Out(pdTerm, "Federation destruction granted.");
+                Debug(D, pdTerm) << "Federation destruction granted." << std::endl;
                 break ;
             }
             catch (RTI::FederatesCurrentlyJoined) {
@@ -306,8 +321,8 @@ HLA_OMNET::resign()
             }
         }
     }
-    D.Out(pdTerm, "Destroying RTIAmbassador and FedAmbassador.");
-    D.Out(pdTerm, "Federation terminated.");
+    Debug(D, pdTerm) << "Destroying RTIAmbassador and FedAmbassador." << std::endl;
+    Debug(D, pdTerm) << "Federation terminated." << std::endl;
 }
 
 
@@ -321,33 +336,11 @@ HLA_OMNET::publishAndSubscribeReceive()
     NODE_TO_OMNET_ID = rtiamb.getInteractionClassHandle("NODE_TO_OMNET");
     PacketLengthToOmnetID = rtiamb.getParameterHandle("PacketLengthToOmnet", NODE_TO_OMNET_ID);
     PacketDataToOmnetID = rtiamb.getParameterHandle("PacketDataToOmnet", NODE_TO_OMNET_ID);
-  
-    // Get all class and attributes handles
-    //getHandles();
-
-    // Add PositionX et PositionY to the attribute set
-    /* auto_ptr<RTI::AttributeHandleSet> attributes(RTI::AttributeHandleSetFactory::create(3));
-    attributes->add(AttrXID);
-    attributes->add(AttrYID);
-
-    // Subscribe to Bille objects.
-    Debug(D, pdDebug) << "subscribe: class " << BilleClassID << ", attributes "
-	       << AttrXID << " and " << AttrYID << "... " << endl ;
-    rtiamb.subscribeObjectClassAttributes(BilleClassID, *attributes, RTI::RTI_TRUE);
-    Debug(D, pdDebug) << "done." << endl ;
-
-    // Publish Boule Objects.
-    attributes->add(AttrColorID);
-    rtiamb.publishObjectClass(BouleClassID, *attributes);
-    */
    
-   
-    // Publish and subscribe to Bing interactions
+    // Publish and subscribe interactions
     rtiamb.subscribeInteractionClass(NODE_TO_OMNET_ID, RTI::RTI_TRUE);
     
-    //rtiamb.publishInteractionClass(NODE_TO_GEM5_ID);
-
-    D.Out(pdInit, "Local Objects and Interactions published and subscribed.");
+    Debug(D, pdInit) << "Local Objects and Interactions published and subscribed." << std::endl;
 }
 
 // ----------------------------------------------------------------------------
@@ -360,60 +353,12 @@ HLA_OMNET::publishAndSubscribeSend()
     NODE_TO_GEM5_ID = rtiamb.getInteractionClassHandle("NODE_TO_GEM5");
     PacketLengthToGem5ID = rtiamb.getParameterHandle("PacketLengthToGem5", NODE_TO_GEM5_ID);
     PacketDataToGem5ID = rtiamb.getParameterHandle("PacketDataToGem5", NODE_TO_GEM5_ID);
-  
-    // Get all class and attributes handles
-    //getHandles();
-
-    // Add PositionX et PositionY to the attribute set
-    /* auto_ptr<RTI::AttributeHandleSet> attributes(RTI::AttributeHandleSetFactory::create(3));
-    attributes->add(AttrXID);
-    attributes->add(AttrYID);
-
-    // Subscribe to Bille objects.
-    Debug(D, pdDebug) << "subscribe: class " << BilleClassID << ", attributes "
-	       << AttrXID << " and " << AttrYID << "... " << endl ;
-    rtiamb.subscribeObjectClassAttributes(BilleClassID, *attributes, RTI::RTI_TRUE);
-    Debug(D, pdDebug) << "done." << endl ;
-
-    // Publish Boule Objects.
-    attributes->add(AttrColorID);
-    rtiamb.publishObjectClass(BouleClassID, *attributes);
-    */
-   
-   
-    // Publish and subscribe to Bing interactions
-    //rtiamb.subscribeInteractionClass(NODE_TO_OMNET_ID, RTI::RTI_TRUE);
     
     rtiamb.publishInteractionClass(NODE_TO_GEM5_ID);
 
-    D.Out(pdInit, "Local Objects and Interactions published and subscribed.");
+    Debug(D, pdInit) << "Local Objects and Interactions published and subscribed." << std::endl;
 }
 
-// ----------------------------------------------------------------------------
-/** get handles of objet/interaction classes
- */
-/*void
-HLA_OMNET::getHandles()
-{
-    Debug(D, pdDebug) << "Get handles..." << endl ;
-    BilleClassID = rtiamb.getObjectClassHandle(CLA_BILLE);
-    BouleClassID = rtiamb.getObjectClassHandle(CLA_BOULE);
-    D.Out(pdInit, "BilleClassID = %d, BouleClassID = %d.",
-          BilleClassID, BouleClassID);
-
-    // Attributs des classes d'Objets
-    AttrXID = rtiamb.getAttributeHandle(ATT_POSITION_X, BilleClassID);
-    AttrYID = rtiamb.getAttributeHandle(ATT_POSITION_Y, BilleClassID);
-    AttrColorID = rtiamb.getAttributeHandle(ATT_COLOR, BouleClassID);
-    D.Out(pdInit, "AttrXID = %d, AttrYID = %d, AttrColorID = %d.",
-          AttrXID, AttrYID, AttrColorID);
-    
-    
-    
-    
-    
-    
-}*/
 // ============================================================================
 //          ------------ END INITIALIZATION FUNCTIONS ------------
 // ============================================================================
@@ -433,7 +378,6 @@ HLA_OMNET::getHandles()
 void
 HLA_OMNET::sendInteraction(uint8_t* PacketDataToGem5, uint32_t n)
 {
-    
   
     libhla::MessageBuffer buffer;
     RTI::ParameterHandleValuePairSet *parameterSet=NULL ;
@@ -465,62 +409,37 @@ HLA_OMNET::sendInteraction(uint8_t* PacketDataToGem5, uint32_t n)
     }
     catch (RTI::Exception& e) {
         std::cout<<"sendInteraction raise exception "<<e._name<<"("<<e._reason<<")"<<std::endl;
-        D.Out(pdExcept, "**** Exception sending interaction : %d", &e);
+        Debug(D, pdExcept) << "**** Exception sending interaction : " << &e << std::endl;
     }
 
     delete parameterSet ;
 }
 
-/*
-void
-HLA_OMNET::sendInteraction(double PacketDataToGEM5)
-{
-    libhla::MessageBuffer buffer;
-    RTI::ParameterHandleValuePairSet *parameterSet=NULL ;
-
-    parameterSet = RTI::ParameterSetFactory::create(1);
-
-    buffer.reset();
-    buffer.write_double(PacketDataToGEM5);
-    buffer.updateReservedBytes();
-    parameterSet->add(DataToGem5ID, static_cast<char*>(buffer(0)), buffer.size());
-
-  
-    try {
-      rtiamb.sendInteraction(NODE_TO_GEM5_ID, *parameterSet, "");
-            
-    }
-    catch (RTI::Exception& e) {
-        std::cout<<"sendInteraction raise exception "<<e._name<<"("<<e._reason<<")"<<std::endl;
-        D.Out(pdExcept, "**** Exception sending interaction : %d", &e);
-    }
-
-    delete parameterSet ;
-}
-*/
 
 // ----------------------------------------------------------------------------
 /** Callback : receive interaction
  */
-
 void 
-HLA_OMNET::receiveInteraction(RTI::InteractionClassHandle theInteraction, 
-			      const RTI::ParameterHandleValuePairSet & theParameters, 
-			      const char */*theTag*/) 
-	throw (RTI::InteractionClassNotKnown, RTI::InteractionParameterNotKnown, 
-	       RTI::FederateInternalError) 
+HLA_OMNET::receiveInteraction(RTI::InteractionClassHandle theInteraction,
+        const RTI::ParameterHandleValuePairSet& theParameters,
+        const RTI::FedTime& /*theTime*/,
+        const char* /*theTag*/,
+        RTI::EventRetractionHandle /*theHandle*/) throw(RTI::InteractionClassNotKnown,
+                                                        RTI::InteractionParameterNotKnown,
+                                                        RTI::InvalidFederationTime,
+                                                        RTI::FederateInternalError)
 {
     libhla::MessageBuffer buffer;
     RTI::ULong valueLength ;
     uint32_t PacketLengthFromGEM5 = 0;
     
-    D.Out(pdTrace, "Fed : receiveInteraction");
+    Debug(D, pdTrace) << "Fed : receiveInteraction" << std::endl;
     if (theInteraction != NODE_TO_OMNET_ID) {
         printf("CALLBACK receiveInteraction : Unknown Interaction received");
         exit(-1);
     }
 
-    D.Out(pdDebug, "receiveInteraction - nb attributs= %d", theParameters.size());
+    Debug(D, pdDebug) << "receiveInteraction - nb attributs= " << theParameters.size() << std::endl;
     
     EthPacketPtr RcvPacketPtr;
     
@@ -549,7 +468,7 @@ HLA_OMNET::receiveInteraction(RTI::InteractionClassHandle theInteraction,
             }
         }
         else {
-            D.Out(pdError, "Unrecognized parameter handle");
+            Debug(D, pdError) << "Unrecognized parameter handle" << std::endl;
         }
     }
     
@@ -598,7 +517,7 @@ void
 HLA_OMNET::pause()
 {
     if (creator) {
-        D.Out(pdInit, "Pause requested");
+        Debug(D, pdInit) << "Pause requested" << std::endl;
         try {
             rtiamb.registerFederationSynchronizationPoint("Init", "Waiting all federations.");
         }
@@ -617,7 +536,7 @@ void
 HLA_OMNET::pause_friend()
 {
     if (creator) {
-        D.Out(pdInit, "Pause requested for friend");
+        Debug(D, pdInit) << "Pause requested for friend" << std::endl;
         try {
             // For testing purpose
              RTI::FederateHandle numfed(0) ;
@@ -668,14 +587,14 @@ HLA_OMNET::tick2()
 void
 HLA_OMNET::setTimeRegulation(bool start_constrained, bool start_regulating)
 {
-    D.Out(pdInit, "Time Regulation setup");
+    Debug(D, pdInit) << "Time Regulation setup" << std::endl;
 
     if (start_constrained) {
         if (!constrained) {
             // change from no constrained to constrained
             rtiamb.enableTimeConstrained();
             constrained = true ;
-            D.Out(pdInit, "Time Constrained enabled.");
+            Debug(D, pdInit) << "Time Constrained enabled." << std::endl;
         }
         //rtiamb.modifyLookahead(TIME_STEP);
     }
@@ -684,7 +603,7 @@ HLA_OMNET::setTimeRegulation(bool start_constrained, bool start_regulating)
             // change from constrained to no constrained
             rtiamb.disableTimeConstrained();
             constrained = false ;
-            D.Out(pdInit, "Time Constrained disabled.");
+            Debug(D, pdInit) << "Time Constrained disabled." << std::endl;
         }
     }
 
@@ -740,30 +659,29 @@ HLA_OMNET::setTimeRegulation(bool start_constrained, bool start_regulating)
 void
 HLA_OMNET::synchronize()
 {
-    D.Out(pdInit, "Synchronize");
+    Debug(D, pdInit) << "Synchronize" << std::endl;
 
     if (creator) {
         // Wait a signal from user and stop the pause synchronization.
 
-        D.Out(pdInit, "Creator can resume execution...");
+        Debug(D, pdInit) << "Creator can resume execution..." << std::endl;
         while (!paused)
             try {
 		
-                D.Out(pdInit, "not paused");
+                Debug(D, pdInit) << "not paused" << std::endl;
                 tick();
             }
             catch (RTI::Exception& e) {
-                D.Out(pdExcept, "******** Exception ticking the RTI : %d ", &e);
+                Debug(D, pdExcept) << "******** Exception ticking the RTI : " << &e << std::endl;
                 throw ;
             }
-        D.Out(pdDebug, "paused");
+            Debug(D, pdDebug) << "paused" << std::endl;
 
         try {
             rtiamb.synchronizationPointAchieved("Init");
         }
         catch (RTI::Exception& e) {
-            D.Out(pdExcept, "**** Exception achieving a synchronization "
-                  "point by creator : %d", &e);
+            Debug(D, pdExcept) << "**** Exception achieving a synchronization point by creator : " << &e << std::endl;
         }
        
         while (paused)
@@ -771,53 +689,48 @@ HLA_OMNET::synchronize()
                 tick();
             }
             catch (RTI::Exception& e) {
-                D.Out(pdExcept, "**** Exception ticking the RTI : %d.", &e);
+                Debug(D, pdExcept) << "**** Exception ticking the RTI : " << &e << std::endl;
                 throw ;
             }
     }
     else {
         if (!paused) {
-            D.Out(pdInit,
-                  "Federate not paused: too early");
+            Debug(D, pdInit) << "Federate not paused: too early" << std::endl;
             while (!paused) {
                 try {
                     tick();
                 }
                 catch (RTI::Exception& e) {
-                    D.Out(pdExcept,
-                          "******** Exception ticking the RTI : %d.", &e);
+                    Debug(D, pdExcept) << "******** Exception ticking the RTI : " << &e << std::endl;
                     throw ;
                 }
             }
         }
-        D.Out(pdInit, "Federate paused");
+        Debug(D, pdInit) << "Federate paused" << std::endl;
 
         try {
             // Federate ends its synchronization.
             rtiamb.synchronizationPointAchieved("Init");
-            D.Out(pdInit, "Pause achieved.");
+            Debug(D, pdInit) << "Pause achieved." << std::endl;
         }
         catch (RTI::Exception& e) {
-            D.Out(pdExcept,
-                  "**** Exception achieving a synchronization point : %d",
-                  &e);
+            Debug(D, pdExcept) << "**** Exception achieving a synchronization point : " << &e << std::endl;
         }
 
-        D.Out(pdInit,
-              "Federate waiting end of pause...");
+        Debug(D, pdInit) << "Federate waiting end of pause..." << std::endl;
         while (paused) {
             try {
                 tick();
             }
             catch (RTI::Exception& e) {
-                D.Out(pdExcept, "******** Exception ticking the RTI : %d.", &e);
+                Debug(D, pdExcept) << "******** Exception ticking the RTI : " << &e << std::endl;
                 throw ;
             }
         }
-        D.Out(pdInit, "End of pause");
+        Debug(D, pdInit) << "End of pause" << std::endl;
     }
 
-    D.Out(pdInit, "Federation is synchronized.");
+    Debug(D, pdInit) << "Federation is synchronized." << std::endl;
 
 }
 
@@ -838,22 +751,20 @@ HLA_OMNET::step()
         rtiamb.queryFederateTime(localTime);
     }
     catch (RTI::Exception& e) {
-        D.Out(pdExcept,
-              "**** Exception asking for federate local time : ", &e);
+        Debug(D, pdExcept) << "**** Exception asking for federate local time : " << &e << std::endl;
     }
 
     try {
         RTIfedTime time_aux(localTime.getTime()+TIME_STEP.getTime());
 
-        D.Out(pdDebug, "time_aux : %.2f - localtime : %.2f - "
-              "timestep : %.2f", time_aux.getTime(),
-              ((RTIfedTime&)localTime).getTime(),
-              ((RTIfedTime&)TIME_STEP).getTime());
+        Debug(D, pdDebug) << "time_aux : " << time_aux.getTime()
+                                  << " - localtime : " << ((RTIfedTime&) localTime).getTime()
+                                  << " - timestep : " << ((RTIfedTime&) TIME_STEP).getTime() << std::endl;
         granted = false ;
         rtiamb.timeAdvanceRequest(time_aux);
     }
     catch (RTI::Exception& e) {
-        D.Out(pdExcept, "******* Exception sur timeAdvanceRequest.");
+        Debug(D, pdExcept) << "******* Exception sur timeAdvanceRequest." << std::endl;
     }
 
     while (!granted) {
@@ -861,7 +772,7 @@ HLA_OMNET::step()
             tick2();
         }
         catch (RTI::Exception& e) {
-            D.Out(pdExcept, "******** Exception ticking the RTI : %d.", &e);
+            Debug(D, pdExcept) << "******** Exception ticking the RTI : " << &e << std::endl;
             throw ;
         }
     }
@@ -877,13 +788,12 @@ HLA_OMNET::step()
  */
 void
 HLA_OMNET::timeAdvanceGrant(const RTI::FedTime& theTime)
-    throw (RTI::InvalidFederationTime, RTI::TimeAdvanceWasNotInProgress, 
+    throw (RTI::InvalidFederationTime, RTI::TimeAdvanceWasNotInProgress,
 	   RTI::FederateInternalError)
 {    
     granted = true ;
     localTime = theTime ;
-    D.Out(pdTrace, "Time advanced, local time is now %.2f.",
-          localTime.getTime());
+    Debug(D, pdTrace) << "Time advanced, local time is now " << localTime.getTime() << std::endl;
 }
 
 // ----------------------------------------------------------------------------
@@ -895,12 +805,12 @@ HLA_OMNET::announceSynchronizationPoint(const char *label, const char */*tag*/)
 {
     if (strcmp(label, "Init") == 0) {
         paused = true ;
-        printf("announceSynchronizationPoint\n");
+        Debug(D, pdProtocol) << "announceSynchronizationPoint." << std::endl;
     }
     else if (strcmp(label, "Friend") == 0) {
         std::cout<<"**** I am happy : I have a friend ****"<<std::endl;
         paused = true ;
-        D.Out(pdProtocol, "announceSynchronizationPoint (friend).");
+        Debug(D, pdProtocol) << "announceSynchronizationPoint (friend)." << std::endl;
     } 
     else {
         cout << "Unexpected synchronization label" << endl ;
@@ -917,8 +827,7 @@ HLA_OMNET::federationSynchronized(const char *label)
 {
     if (strcmp(label, "Init") == 0) {
         paused = false ;
-        D.Out(pdProtocol,
-              "CALLBACK : federationSynchronized with label %s", label);
+        Debug(D, pdProtocol) << "CALLBACK : federationSynchronized with label " << label << std::endl;
     }
 }
 
@@ -935,56 +844,6 @@ HLA_OMNET::federationSynchronized(const char *label)
 //          ------------ ATTRIBUTES FUNCTIONS ------------
 // ============================================================================
 
-/** Updates a ball by sending entity position and color.
-    \param x X position
-    \param y Y position
-    \param color Color
-    \param UpdateTime Event time
-    \param id Object handle (ball)
- */
-/*void
-HLA_OMNET::sendUpdate(double x, double y, int color, RTI::ObjectHandle id)
-{    
-    libhla::MessageBuffer buffer;
-    RTI::AttributeHandleValuePairSet *attributeSet ;
-
-    attributeSet = RTI::AttributeSetFactory::create(3);
-
-    printf("SendUpdate\n");
-   
-    buffer.reset();
-    buffer.write_double(x);
-    buffer.updateReservedBytes();
-    attributeSet->add(AttrXID, static_cast<char*>(buffer(0)),buffer.size());    
-    D.Out(pdDebug, "SendUpdate - AttrXID= %u, x= %f, size= %u, attribute size=%d",
-          AttrXID, x, attributeSet->size(),buffer.size());
-    
-    buffer.reset();
-    buffer.write_double(y);	
-    buffer.updateReservedBytes();
-    attributeSet->add(AttrYID, static_cast<char*>(buffer(0)),buffer.size());
-    D.Out(pdDebug, "SendUpdate - AttrYID= %u, y= %f, size= %u",
-          AttrYID, y, buffer.size());
-
-    buffer.reset();
-    buffer.write_int32(color);	
-    buffer.updateReservedBytes();
-    attributeSet->add(AttrColorID, static_cast<char*>(buffer(0)),buffer.size());
-   
-    D.Out(pdDebug, "SendUpdate - AttrColorID= %u, color= %f, size= %u",
-          AttrColorID, color, buffer.size());
-
-    try {
-      rtiamb.updateAttributeValues(id, *attributeSet, "coucou");     
-    }
-    catch (RTI::Exception& e) {
-        std::cout<<"Exception "<<e._name<<" ("<<e._reason<<")"<<std::endl;
-        D.Out(pdExcept, "**** Exception updating attribute values: %d", &e);
-    }
-
-    delete attributeSet ;
-}*/
-
 
 // ----------------------------------------------------------------------------
 /** Callback : reflect attribute values with time
@@ -996,49 +855,9 @@ HLA_OMNET::reflectAttributeValues(RTI::ObjectHandle theObject,
 	throw (RTI::ObjectNotKnown, RTI::AttributeNotKnown, RTI::FederateOwnsAttributes,
 	       RTI::FederateInternalError)
 {
-    /*
-    libhla::MessageBuffer buffer;
-    float x1 = 0 ;
-    float y1 = 0 ;
 
-    RTI::ULong valueLength ;  
-
-    D.Out(pdDebug, "reflectAttributeValues - nb attributs= %d",
-          theAttributes.size());
-
-    for (unsigned int j=0 ; j<theAttributes.size(); j++) {
-
-        RTI::AttributeHandle parmHandle = theAttributes.getHandle(j);
-        valueLength = theAttributes.getValueLength(j);
-        assert(valueLength>0);
-        buffer.resize(valueLength);        
-        buffer.reset();        
-        theAttributes.getValue(j, static_cast<char*>(buffer(0)), valueLength);        
-        buffer.assumeSizeFromReservedBytes();
-        
-        if (parmHandle == AttrXID) {
-           x1 = buffer.read_double();     
-	   printf("x1: %f\n",x1);
-        }
-        else if (parmHandle == AttrYID) {
-           y1 = buffer.read_double();   
-	   printf("y1: %f\n",y1);
-        }
-        else
-            D.Out(pdError, "Fed: ERREUR: handle inconnu.");
-    }
-    */
-   
 }
 
-/*void
-HLA_OMNET::declare()
-{
-    ID = rtiamb.registerObjectInstance(BouleClassID, federateName.c_str());
-   // test, quelle est la classe de l'objet cree
-   cout << "the class of the new created object is: " <<
-rtiamb.getObjectClass (ID) << endl ;
-}*/
 
 // ----------------------------------------------------------------------------
 /** Callback : remove object instance
@@ -1051,8 +870,6 @@ HLA_OMNET::removeObjectInstance(RTI::ObjectHandle theObject,
     throw (RTI::ObjectNotKnown, RTI::InvalidFederationTime, RTI::FederateInternalError)
 {
  
-  
-  
 }
 
 // ----------------------------------------------------------------------------
@@ -1062,17 +879,10 @@ void
 HLA_OMNET::discoverObjectInstance(RTI::ObjectHandle theObject,
 				RTI::ObjectClassHandle theObjectClass,
 				const char */*theObjectName*/)
-    throw (RTI::CouldNotDiscover, RTI::ObjectClassNotKnown, 
+    throw (RTI::CouldNotDiscover, RTI::ObjectClassNotKnown,
 	   RTI::FederateInternalError)
 {
-   // if (theObjectClass != BilleClassID) {
-   //     D.Out(pdError, "Object of Unknown Class discovered.");
-   //     std::string msg = "Unknown objectClass < ";
-   //     throw RTI::FederateInternalError(msg.c_str());
-   // }
 
-    //cout << "Discovered object handle = " << theObject <<", name = "<< rtiamb.getObjectInstanceName(theObject) <<endl ;
-    
 }
 
 // ============================================================================

@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for libHLANode
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep --make-so -O out -I../../inet/src/inet/networklayer/arp/ipv4 -I../../inet/src/inet/networklayer/ipv4 -I../../inet/src/inet/linklayer/common -I../../inet/src -I../../inet/src/inet/linklayer/ethernet -I../../inet/src/inet/networklayer/contract/ipv4 -L../../inet/out/$$\(CONFIGNAME\)/src -lINET -DINET_IMPORT -KINET_PROJ=../../inet
+#  opp_makemake -f --deep --make-so -O out -I../../inet/src/inet/linklayer/common -I../../inet/src -I../../inet/src/inet/networklayer/contract/ipv4 -I../../inet/src/inet/linklayer/ethernet -I../../inet/src/inet/networklayer/arp/ipv4 -I../../inet/src/inet/networklayer/ipv4 -L../../inet/out/$$\(CONFIGNAME\)/src -lINET -DINET_IMPORT -KINET_PROJ=../../inet
 #
 
 # Name of target to be created (-o option)
@@ -10,12 +10,12 @@ TARGET = libHLANode$(SHARED_LIB_SUFFIX)
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
-    -I../../inet/src/inet/networklayer/arp/ipv4 \
-    -I../../inet/src/inet/networklayer/ipv4 \
     -I../../inet/src/inet/linklayer/common \
     -I../../inet/src \
-    -I../../inet/src/inet/linklayer/ethernet \
     -I../../inet/src/inet/networklayer/contract/ipv4 \
+    -I../../inet/src/inet/linklayer/ethernet \
+    -I../../inet/src/inet/networklayer/arp/ipv4 \
+    -I../../inet/src/inet/networklayer/ipv4 \
     -I.
 
 # Additional object and library files to link with
@@ -101,8 +101,8 @@ CXX_FLAGS_HLA = -I$(CERTI_SOURCE_DIR)/include -I$(CERTI_SOURCE_DIR)/libCERTI -I/
 
 CXX_DEFINES_HLA = -DHAVE_CONFIG_H=1 -DHAVE_XML -DHOST_IS_64BITS -DRTI_USES_STD_FSTREAM
 
-LINK_FLAGS_HLA = -rdynamic $(CERTI_BINARY_DIR)/libRTI/hla-1_3/libRTI-NGd.so.1.0.0 $(CERTI_BINARY_DIR)/libCERTI/libCERTId.so.3.4.3 \
-	-lxml2 $(CERTI_BINARY_DIR)/libHLA/libHLAd.so.3.4.3 -lrt $(CERTI_BINARY_DIR)/libRTI/hla-1_3/libFedTimed.so.1.0.0 \
+LINK_FLAGS_HLA = -rdynamic $(CERTI_BINARY_DIR)/libRTI/hla-1_3/libRTI-NGd.so.1.0.0 $(CERTI_BINARY_DIR)/libCERTI/libCERTId.so.4.0.0 \
+	-lxml2 $(CERTI_BINARY_DIR)/libHLA/libHLAd.so.4.0.0 -lrt $(CERTI_BINARY_DIR)/libRTI/hla-1_3/libFedTimed.so.1.0.0 \
 	-Wl,-rpath,$(CERTI_BINARY_DIR)/libRTI/hla-1_3:$(CERTI_BINARY_DIR)/libCERTI:$(CERTI_BINARY_DIR)/libHLA
 
 COPTS += $(CXXFLAGS) $(CXX_DEFINES_HLA) $(CXX_FLAGS_HLA)

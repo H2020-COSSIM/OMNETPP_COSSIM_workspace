@@ -110,12 +110,8 @@ void SyncNode::handleMessage(cMessage *msg){
 #endif
 }
 
-
+#ifdef DEBUG_MSG
 //-------------------------CRC stuff
-
-
-
-
 void Txc0::CRC_Init()
 {
     unsigned short remainder;
@@ -151,6 +147,7 @@ unsigned short Txc0:: CRC_Calculate(const uint8_t *message, int nBytes)
 }
 
 //-----------------------end CRC stuff
+#endif
 
 void Txc0::setPayloadArray(myPacket *msg, uint8_t *payload, int length)
 {
@@ -258,7 +255,6 @@ void Txc0::handleMessage(cMessage *msg)
 
 
      if (msg->isSelfMessage()) {
-        // cout << "self message received\n";
          cMessage* event = new cMessage("reloop");
          scheduleAt(simTime()+RX_PACKET_TIME, event);
 
@@ -276,12 +272,15 @@ void Txc0::handleMessage(cMessage *msg)
 
            EthPacketPtr Rcvpacket = NODEHLA->getPacket();
 #endif
+             /* ------- Rcvpacket is the Ethernet packet which we get from GEM5 ------- */
+
+#ifdef DEBUG_MSG
              cout << "\n "<<"Node:"<< NODE_NO<<" Receive REAL Packet from GeM5 with length (integer print):"<< Rcvpacket->length<<"\n";
              for(unsigned i=0;i<Rcvpacket->length;i++){
                  cout<<(int)Rcvpacket->data[i]<<" ";
              }
              cout<<"\n";
-
+#endif
 
              //------- Encapsulate Message for OMNET----------
              if (Rcvpacket->length > 0){ //! Receive Real Packet !//
@@ -320,36 +319,38 @@ void Txc0::handleMessage(cMessage *msg)
 
                 for (unsigned int i=0;i<tmp_packet_length;i++) tmp_payload[i]= (uint8_t)Rcvpacket->data[i+14];
 
-
+#ifdef DEBUG_MSG
                 //DEBUG
                 cout<<"\n DEBUG: From Node:"<< NODE_NO <<"  From Gem to Omnet, ethernet only payload(integer print):"<<"With packet length:"<<tmp_packet_length<<". ";
                 for(unsigned i=0;i<tmp_packet_length;i++) cout<<(int) tmp_payload[i]<<" ";
                 cout<<"\n";
                 cout<<"\n DEBUG: From Node:"<< NODE_NO <<"  From Gem to Omnet, ethertype (hex print): "<<hex<<(int) (Rcvpacket->data[12]) <<","<< hex<<(int)(Rcvpacket->data[13]) <<". ";
                 cout.unsetf(ios::hex);
-
+#endif
 
                 setPayloadArray(tmp_packet, tmp_payload, tmp_packet_length);
                 eth2Frame->setByteLength(ETHER_MAC_FRAME_BYTES);
 
-
+                // --------------- Ethernet (L2) Routing ---------------
                 if (L2_Routing) {
                     eth2Frame->encapsulate(tmp_packet);
                     send_packet=true;
                 }
 
+                //--------------- IPv4 (L3) Routing ---------------
                 else if ((Rcvpacket->data[13]==0x00) and (Rcvpacket->data[12]==0x08) and  Rcvpacket->length>35){
 
                     send_packet=true;
 
-
-
+#ifdef DEBUG_MSG
                     cout<<"\n From Gem to Omnet: Got IP packet from GEM5 "<<" Node:"<< NODE_NO <<"\n";
                     //---------------IP Decaps----------------------------------------
 
-                    cout<<"\n From Gem to Omnet: IP Starting parsing press a key (reported from NODE:):"<< NODE_NO <<"\n";
+                    cout<<"\n From Gem to Omnet: IP Starting parsing (reported from NODE:):"<< NODE_NO <<"\n";
                     cout<<"\n From Gem to Omnet: Packet length is (reported from NODE:):"<< (int)Rcvpacket->length<< NODE_NO  <<"\n";
+#endif
 
+                    //--------------- IP Decapsulation ---------------
                     my_Version=(short)  (Rcvpacket->data[14]<< 8);
                     my_IHL=(short) (Rcvpacket->data[14]& 0xFF);
                     my_TOS=(unsigned char) Rcvpacket->data[15];
@@ -369,6 +370,7 @@ void Txc0::handleMessage(cMessage *msg)
                     for (int i=0;i<4;i++)my_source_ip[i]=(int) Rcvpacket->data[i+26];
                     for (int i=0;i<4;i++)my_dest_ip[i]=(int) Rcvpacket->data[i+30];
 
+#ifdef DEBUG_MSG
                     //for (int i;i<tmp_packet_length-35;i++)IP_data[i]=(unsigned char)Rcvpacket->data[i+35];
                     cout<<"\n From Gem to Omnet: IP parsing Starting... (reported from NODE:):"<< NODE_NO <<"\n";
                     cout<<"\n From Gem to Omnet: Source IP:";
@@ -376,33 +378,23 @@ void Txc0::handleMessage(cMessage *msg)
                     cout <<"\n From Gem to Omnet: Destination IP:";
                     for (int i=0;i<4;i++) cout<< (int)my_dest_ip[i];
                     cout<<"\n From Gem to Omnet: IP parsing complete. (reported from NODE:):"<< NODE_NO <<"\n";
+#endif
 
-
-                    //---------------END IP Decaps----------------------------------------
+                    //--------------- END IP Decapsulation ---------------
 
                     //----------------- Build Datagram ------------
                     datagram= new IPv4Datagram("test");
                     icmp = new ICMPMessage("test");
-                    //datagram=createIPv4Datagram( "test");
                     datagram->setByteLength(IP_HEADER_BYTES);
-                    //datagram->encapsulate(tmp_packet); //transportPacket for as is the ethernet payload
-                    if (my_Protocol==1) {
+                    datagram->encapsulate(tmp_packet); //transportPacket for us is the ethernet payload
 
-
-                        datagram->encapsulate(tmp_packet);
-                    }
-                    else datagram->encapsulate(tmp_packet);
 
                     IPv4Address IP_src,IP_dest;
                     // inet/src/inet/networklayer/contract/ipv4/IPv4Address.cc
-
-                    //IP_src.set(my_source_ip);
-                    //IP_dest.set(my_dest_ip);
                     IP_src.set(my_source_ip[0],my_source_ip[1],my_source_ip[2],my_source_ip[3]);
                     IP_dest.set(my_dest_ip[0],my_dest_ip[1],my_dest_ip[2],my_dest_ip[3]);
 
                     //------ set datagram ---
-
                     datagram->setVersion(my_Version);
                     datagram->setHeaderLength(my_IHL);
                     datagram->setTypeOfService(my_TOS);
@@ -431,18 +423,23 @@ void Txc0::handleMessage(cMessage *msg)
                         throw cRuntimeError("packet from higher layer (%d bytes) exceeds maximum Ethernet payload length (%d)", (int)datagram->getByteLength(), MAX_ETHERNET_DATA_BYTES);
 
                     eth2Frame->encapsulate(datagram);
+#ifdef DEBUG_MSG
                     cout<<"\n From Gem to Omnet: Datagram Encapsulated! (reported from NODE:):"<< NODE_NO <<"\n";
+#endif
                 }
 
+                //--------------- IPv6 (L3) Routing (Not supported) ---------------
                 else if ((Rcvpacket->data[13]==0xdd) and (Rcvpacket->data[12]==0x86)){
                     //IPV6 packet, don't send it
                     send_packet=false;
                 }
 
-                else if ((Rcvpacket->data[13]==0x06) and (Rcvpacket->data[12]==0x08)) //ARP request/Reply
+                //--------------- ARP Request/Reply (L3) Routing ---------------
+                else if ((Rcvpacket->data[13]==0x06) and (Rcvpacket->data[12]==0x08))
                 {
-
+#ifdef DEBUG_MSG
                     cout<<"\n From Gem to Omnet: Got ARP packet from GEM5 "<<" Node:"<< NODE_NO <<"\n";
+#endif
                     ARPPacket* tmp_arp_packet  =new ARPPacket("MyARP_Packet");
                     tmp_arp_packet->setName("GEM5_arp");
 
@@ -454,8 +451,9 @@ void Txc0::handleMessage(cMessage *msg)
                     tmp_arp_packet->setOpcode((int) Rcvpacket->data[21]);
                     if (Rcvpacket->data[21]==2)tmp_arp_packet->setName("GEM5_arpREPLY");
                     else if (Rcvpacket->data[21]==1)tmp_arp_packet->setName("GEM5_arpREQUEST");
+#ifdef DEBUG_MSG
                     cout<<"\n  --------- tmp_arp_packet->setOpcod --------:"<< (int) Rcvpacket->data[21] <<"From Node: "<< NODE_NO <<"\n";
-                    //tmp_arp_packet->setOpcode(ARP_REQUEST);
+#endif
 
                     tmp_arp_packet->setDestMACAddress(destMac);  //same as Ethernet no need to parse it from ARP
                     tmp_arp_packet->setSrcMACAddress(sourceMac); //same as Ethernet no need to parse it from ARP
@@ -469,11 +467,12 @@ void Txc0::handleMessage(cMessage *msg)
                     IP_src.set(my_source_ip[0],my_source_ip[1],my_source_ip[2],my_source_ip[3]);
                     IP_dest.set(my_dest_ip[0],my_dest_ip[1],my_dest_ip[2],my_dest_ip[3]);
 
+#ifdef DEBUG_MSG
                     cout<<"\n From Gem to Omnet: ARP Source IP:";
                     for (int i=0;i<4;i++) cout<< (int)my_source_ip[i]<<".";
                     cout <<"\n From Gem to Omnet: ARP Destination IP:";
                     for (int i=0;i<4;i++) cout<< (int)my_dest_ip[i]<<".";
-
+#endif
                     tmp_arp_packet->setDestIPAddress(IP_dest);
                     tmp_arp_packet->setSrcIPAddress(IP_src);
 
@@ -483,37 +482,40 @@ void Txc0::handleMessage(cMessage *msg)
                 }
 
                 else{ //Handle packet as raw payload
-                     eth2Frame->encapsulate( tmp_packet);///was tmp_packet
+                     eth2Frame->encapsulate(tmp_packet);///was tmp_packet
+#ifdef DEBUG_MSG
                      cout<<"\n From Gem to Omnet: tmp_packet Encapsulated! (reported from NODE:):"<< NODE_NO <<"\n";
+#endif
                      send_packet=true;
                 }
-
                 //End of Protocol cases
 
                 if (eth2Frame->getByteLength() < MIN_ETHERNET_FRAME_BYTES){
                     eth2Frame->setByteLength(MIN_ETHERNET_FRAME_BYTES); // "padding"
                 }
-                //--------------------------------------------------------------------------
 
                 if (send_packet){
-                    cout<<"\n ---";
+#ifdef DEBUG_MSG
                     cout<<"\n  ---------Sending Packet through OMNET NETWORK---------:"<<"From Node: "<< NODE_NO <<"\n";
-                    cout<<"\n ---";
+#endif
                     send(eth2Frame, "gate$o");
                 }
+#ifdef DEBUG_MSG
                 else  cout<<"\n  --------- Packet NOT SENT! (probably IPV6 packet) through OMNET NETWORK---------:"<<"From Node: "<< NODE_NO <<"\n";
-
+#endif
                 //! -------------- Testing Ethernet -------------- !//
 
              }
              else{ //! Receive Empty Packet -- Terminate the HLA Connection !//
+#ifdef DEBUG_MSG
                  cout<<"\nNode:"<< NODE_NO<<" Terminate HLA Connection\n";
+#endif
+
 #ifndef NO_HLA
                  NODEHLA->clearRcvPacket();
                  NODEHLA->resign();
 
                  cancelEvent(event);
-
 
                  //!Notify the SynchNode that this HLA node has been deleted !//
                  cModule *parent= getParentModule();
@@ -521,22 +523,21 @@ void Txc0::handleMessage(cMessage *msg)
                  GEM5SyncNode->HLAGlobalSynch->WriteInFinalizeArray(NODE_NO);
 
                  TerminateNormal = true;
-
-
 #endif
              }
 
             //-------END Encapsulate Message for OMNET----------
-
        }
 
      }
-     else {
-         bubble("-----just got a real message from network------");
+     else { //------- Receive real message from OMNET++ network (other OMNET++ node) -------
+         bubble("-----just got a real message from OMNET++ network------");
 
+#ifdef DEBUG_MSG
          cout<<"\n ---";
          cout<<"\n  ---------Receiving Packet from OMNET NETWORK---------:"<<"From Node: "<< NODE_NO <<"\n";
          cout<<"\n ---";
+#endif
          TOGGLE=!TOGGLE;
          EtherFrame *eth2Frame2 = nullptr;
 
@@ -548,8 +549,9 @@ void Txc0::handleMessage(cMessage *msg)
              ethertype=eth2Frame->getEtherType();
              eth2Frame2=eth2Frame;
 
-             //char ethername[20]=
+#ifdef DEBUG_MSG
              cout<<"\n From OMNET to GEM5: Decoding Ethernet:"<<"From Node: "<< NODE_NO <<" Ethernet packet Name: "<<eth2Frame->getName() <<" "<<"\n";
+#endif
              ethertype_dec[0]=(uint8_t) ((ethertype  >> 8) & 0xFF);
              ethertype_dec[1]=(uint8_t)(ethertype  & 0xFF);
 
@@ -570,22 +572,25 @@ void Txc0::handleMessage(cMessage *msg)
          sourceMac.getAddressBytes(tmp_src);
          destMac.getAddressBytes(tmp_dst);
 
+#ifdef DEBUG_MSG
          cout<<"\n From OMNET to GEM5: for packet type: From Node:"<< NODE_NO <<" ethertype_dec[0],[1]:" <<(int)ethertype_dec[0]<<","<< (int)ethertype_dec[1]<<".  ";
-
          cout<<"\n From OMNET to GEM5: IF for GEM5 valid packet taken ---------:"<<"From Node: "<< NODE_NO <<"\n";
+#endif
          myPacket *from_eth_packet_pt;
          unsigned int from_eth_payload_length;
 
-
-
+         // --------------- Ethernet (L2) Routing ---------------
          if (L2_Routing) {
              from_eth_packet_pt=   (myPacket*) (eth2Frame2->decapsulate());
              from_eth_payload_length=from_eth_packet_pt->getLength();
              getPayloadArray(from_eth_packet_pt,from_eth_payload,from_eth_payload_length);
         }
 
+        //--------------- IPv4 (L3) Routing ---------------
         else if ((ethertype_dec[1]==0x00) and (ethertype_dec[0]==0x08) ){
+#ifdef DEBUG_MSG
           cout<<"\n From OMNET to GEM5: Got IP packet from NETWORK From Node:"<< NODE_NO <<"\n";
+#endif
 
           IPv4Datagram *my_datagram = (IPv4Datagram*) (eth2Frame2->decapsulate());
 
@@ -596,8 +601,10 @@ void Txc0::handleMessage(cMessage *msg)
           //--------Testing IP Checksum--------
           //http://www.thegeekstuff.com/2012/05/ip-header-checksum
 
+#ifdef DEBUG_MSG
           uint16_t ip_header[10];
           for (int i=0;i<10;i++) ip_header[i]= (uint16_t) (  (from_eth_payload[i+1] <<8)  + (from_eth_payload[i] & 0xFF)) ;
+
 
           cout << "\n "<<"------> From OMNET to GEM5: Previous checksum result from  Node (hex print):" <<NODE_NO <<"="<< hex << (int)from_eth_payload[10] <<hex<< (int)from_eth_payload[11]<<"\n";
           cout.unsetf(ios::hex);
@@ -614,24 +621,27 @@ void Txc0::handleMessage(cMessage *msg)
 
           cout << "\n "<<"------> From OMNET to GEM5: myIP_checksum result from  Node (two integers print):" <<NODE_NO <<"="<<  (int)myIP_checksum_0 << ","<< (int) myIP_checksum_1<<"\n";
           cout.unsetf(ios::hex);
+#endif
           //---------End Testing IP Checksum--------
 
         }
-        //------------------------------------ADAPT-----------------
+        //--------------- IPv6 (L3) Routing (Not supported) ---------------
         else if ((ethertype_dec[1]==0xdd) and (ethertype_dec[0]==0x86)){ //We don't need this as this packet will never be sent from the other end
-            cout<<"\n From OMNET to GEM5: Got IPV6 packet do nothing from NETWORK From Node: "<< NODE_NO <<"\n";
+#ifdef DEBUG_MSG
+          cout<<"\n From OMNET to GEM5: Got IPV6 packet do nothing from NETWORK From Node: "<< NODE_NO <<"\n";
+#endif
           //IPV6 packet, don't send it
         }
 
-
+        //--------------- ARP Request/Reply (L3) Routing ---------------
         else if ((ethertype_dec[1]==0x06) and (ethertype_dec[0]==0x08)){ //UNIVERSAL ARP request/Reply
-
+#ifdef DEBUG_MSG
             cout<<"\n From OMNET to GEM5: Got ARP packet from NETWORK From Node: "<< NODE_NO <<"\n";
-
+#endif
              string s = typeid(eth2Frame2->decapsulate()).name();
-
+#ifdef DEBUG_MSG
              cout<<"\n From OMNET to GEM5: Got ARP packet from NETWORK From Node: "<< NODE_NO << "With class name:"<<s<<"\n";
-
+#endif
              ARPPacket* my_arp_packet  =(ARPPacket*) (eth2Frame2->decapsulate());
 
              MACAddress sourceMac;
@@ -650,11 +660,12 @@ void Txc0::handleMessage(cMessage *msg)
 
              int opcode=my_arp_packet->getOpcode();
 
+#ifdef DEBUG_MSG
              cout<<"\n From Omnet to Gem  : ARP Source IP:";
              for (int i=0;i<4;i++) cout<< (int)my_source_ip[i]<<".";
              cout <<"\n From Omnet to Gem  : ARP Destination IP:";
              for (int i=0;i<4;i++) cout<< (int)my_dest_ip[i]<<".";
-
+#endif
              //from_eth_payload,
              from_eth_payload_length=46; ///building raw arp packet for GEM
              //Serializing GEM5 compatible packet
@@ -683,7 +694,7 @@ void Txc0::handleMessage(cMessage *msg)
 
              ethertype_dec[0]=(uint8_t)8; //Type for ARP protocol
              ethertype_dec[1]=(uint8_t)6; //Type for ARP protocol
-
+#ifdef DEBUG_MSG
              cout<<"\n";
              cout<<"\n From OMNET to GEM5  : UNVERSAL ARP From Node: "<< NODE_NO << " opcode: "<<opcode<<"\n";
              cout<<"\n From Omnet to Gem5  : UNVERSAL ARP Source MAC:";
@@ -691,47 +702,26 @@ void Txc0::handleMessage(cMessage *msg)
              cout<<"\n From Omnet to Gem5  : UNVERSAL ARP Destination MAC:";
              for (int i=0;i<6;i++) cout<< (int)tmp_dst[i]<<".";
              cout<<"\n";
-
-        }
-
-        else if ( (ethertype_dec[1]==0x06) and (ethertype_dec[0]==0x08) ){ //DEPRICATED: ARP request/Reply,
-
-            cout<<"\n From OMNET to GEM5: Got ARP packet from NETWORK From Node: "<< NODE_NO <<"\n";
-
-            ARPPacket* my_arp_packet  =(ARPPacket*) (eth2Frame2->decapsulate());
-
-            from_eth_packet_pt=  (myPacket*) (my_arp_packet->decapsulate());
-            from_eth_payload_length=from_eth_packet_pt->getLength();
-
-            getPayloadArray(from_eth_packet_pt,from_eth_payload,from_eth_payload_length);
-
-            // don't need to take it from ARP :MACAddress srcMAC= my_arp_packet->getSrcMACAddress();
-            // we should substitute the arp info in the raw packet in case that packet have passed through a router and it has changed its Sender Mac Field
-            //:TODO to be tested 27/8/14
-            //for (int i=8; i<14;i++)  from_eth_payload[i]=tmp_src[i-8];
-
+#endif
         }
 
         //------------------------------------END ADAPT ------------------------
 
         else
         {
+#ifdef DEBUG_MSG
             cout<<"\n  From OMNET to GEM5: ---------Other type Decapsulated from OMNET NETWORK---------:"<<"From Node: "<< NODE_NO <<"\n";
+#endif
             from_eth_packet_pt=   (myPacket*) (eth2Frame2->decapsulate());
             from_eth_payload_length=from_eth_packet_pt->getLength();
             getPayloadArray(from_eth_packet_pt,from_eth_payload,from_eth_payload_length);
         }
-
-
-
-
-         //getPayloadArray(from_eth_packet_pt,from_eth_payload,from_eth_payload_length); //protected data member
-
+#ifdef DEBUG_MSG
          cout<<"\n From OMNET to GEM5: DEBUG: From Node:"<< NODE_NO <<" Ethernet only payload (integer print):"<<"With payload length:"<<from_eth_payload_length<<". ";
          for(unsigned i=0;i<from_eth_payload_length;i++) cout<<(int) from_eth_payload[i]<<" ";
          cout<<"\n";
          //Logs
-
+#endif
          total_bytes_received=total_bytes_received+from_eth_payload_length;
 
          //dest, src ethernet
@@ -743,8 +733,9 @@ void Txc0::handleMessage(cMessage *msg)
          total_payload[13]= ethertype_dec[1];//(uint8_t) (ethertype2>>8 & 0xFF);
 
 
-         for (int i=0;i<from_eth_payload_length;i++) total_payload[i+14]=(uint8_t)from_eth_payload[i];
+         for (unsigned i=0;i<from_eth_payload_length;i++) total_payload[i+14]=(uint8_t)from_eth_payload[i];
 
+#ifdef DEBUG_MSG
          cout << "\n "<<"------From OMNET to GEM5: Node:"<< NODE_NO<<" SEND Packet into GeM5 with total length:"<< (int)(from_eth_payload_length+14)<<"\n";
          for(unsigned i=0;i<from_eth_payload_length+14;i++){
            cout<<(int)total_payload[i]<<" ";
@@ -755,7 +746,7 @@ void Txc0::handleMessage(cMessage *msg)
          unsigned short CRC_result= CRC_Calculate(total_payload, (int)from_eth_payload_length+14);
          cout << "\n "<<"From OMNET to GEM5: CRC result from  Node:(hex print)" <<NODE_NO <<"="<< hex <<CRC_result<<"\n";
          cout.unsetf(ios::hex);
-
+#endif
 
 #ifndef NO_HLA
         NODEHLA->sendInteraction(total_payload,from_eth_payload_length+14); //with ethernet support
