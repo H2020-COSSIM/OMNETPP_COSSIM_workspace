@@ -91,7 +91,7 @@ class HLA_OMNET : public NullFederateAmbassador
 {
 public:
   HLA_OMNET(std::string, int, int);
-  virtual ~HLA_OMNET() throw (RTI::FederateInternalError);
+  virtual ~HLA_OMNET();
 
 
   //virtual void declare();
@@ -131,47 +131,34 @@ public:
     RTI::FederateHandle getHandle() const ;
 
     // Callbacks
-    void announceSynchronizationPoint(const char *label, const char *tag)
-        throw (RTI::FederateInternalError);
+    void announceSynchronizationPoint(const char *label, const char *tag);
 
-    void federationSynchronized(const char *label)
-        throw (RTI::FederateInternalError);
+    void federationSynchronized(const char *label);
 
-    void timeAdvanceGrant(const RTI::FedTime& theTime)
-        throw (RTI::FederateInternalError, RTI::TimeAdvanceWasNotInProgress,
-	       RTI::InvalidFederationTime);
+    void timeAdvanceGrant(const RTI::FedTime& theTime);
 
     void discoverObjectInstance(RTI::ObjectHandle theObject,
                                 RTI::ObjectClassHandle theObjectClass,
-                                const char *theObjectName)
-        throw (RTI::FederateInternalError, RTI::ObjectClassNotKnown, RTI::CouldNotDiscover);
+                                const char *theObjectName);
 	
 	
-    void reflectAttributeValues(RTI::ObjectHandle, const RTI::AttributeHandleValuePairSet &, const char *) 
-	throw (RTI::ObjectNotKnown, RTI::AttributeNotKnown, RTI::FederateOwnsAttributes,
-	       RTI::FederateInternalError);
+    void reflectAttributeValues(RTI::ObjectHandle, const RTI::AttributeHandleValuePairSet &, const char *) ;
 
 
     void receiveInteraction(RTI::InteractionClassHandle theInteraction,
                                 const RTI::ParameterHandleValuePairSet& theParameters,
                                 const RTI::FedTime& theTime, const char *theTag,
-                                RTI::EventRetractionHandle theHandle)
-            throw (RTI::InteractionClassNotKnown, RTI::InteractionParameterNotKnown,
-                   RTI::InvalidFederationTime, RTI::FederateInternalError);
+                                RTI::EventRetractionHandle theHandle);
 
         void receiveInteraction(RTI::InteractionClassHandle,
                                 const RTI::ParameterHandleValuePairSet &,
-                                const char *)
-            throw (RTI::InteractionClassNotKnown, RTI::InteractionParameterNotKnown,
-               RTI::FederateInternalError) { };
+                                const char *){ };
 
     void removeObjectInstance(RTI::ObjectHandle theObject, const RTI::FedTime& theTime,
 			      const char *theTag,
-			      RTI::EventRetractionHandle theHandle)
-	throw (RTI::ObjectNotKnown, RTI::InvalidFederationTime, RTI::FederateInternalError);
+			      RTI::EventRetractionHandle theHandle);
 
-    void removeObjectInstance(RTI::ObjectHandle, const char *)
-	throw (RTI::ObjectNotKnown, RTI::FederateInternalError) { };
+    void removeObjectInstance(RTI::ObjectHandle, const char *) { };
 
     
     virtual void sendInteraction(uint8_t* , uint32_t);

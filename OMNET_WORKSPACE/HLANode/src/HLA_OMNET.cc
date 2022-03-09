@@ -97,7 +97,6 @@ HLA_OMNET::HLA_OMNET(std::string federate_name, int node, int _TotalNodes)
 /** Destructor
  */
 HLA_OMNET::~HLA_OMNET()
-    throw (RTI::FederateInternalError)
 {
 }
 
@@ -424,10 +423,7 @@ HLA_OMNET::receiveInteraction(RTI::InteractionClassHandle theInteraction,
         const RTI::ParameterHandleValuePairSet& theParameters,
         const RTI::FedTime& /*theTime*/,
         const char* /*theTag*/,
-        RTI::EventRetractionHandle /*theHandle*/) throw(RTI::InteractionClassNotKnown,
-                                                        RTI::InteractionParameterNotKnown,
-                                                        RTI::InvalidFederationTime,
-                                                        RTI::FederateInternalError)
+        RTI::EventRetractionHandle /*theHandle*/)
 {
     libhla::MessageBuffer buffer;
     RTI::ULong valueLength ;
@@ -788,8 +784,6 @@ HLA_OMNET::step()
  */
 void
 HLA_OMNET::timeAdvanceGrant(const RTI::FedTime& theTime)
-    throw (RTI::InvalidFederationTime, RTI::TimeAdvanceWasNotInProgress,
-	   RTI::FederateInternalError)
 {    
     granted = true ;
     localTime = theTime ;
@@ -801,7 +795,6 @@ HLA_OMNET::timeAdvanceGrant(const RTI::FedTime& theTime)
  */
 void
 HLA_OMNET::announceSynchronizationPoint(const char *label, const char */*tag*/)
-    throw (RTI::FederateInternalError)
 {
     if (strcmp(label, "Init") == 0) {
         paused = true ;
@@ -823,7 +816,6 @@ HLA_OMNET::announceSynchronizationPoint(const char *label, const char */*tag*/)
  */
 void
 HLA_OMNET::federationSynchronized(const char *label)
-    throw (RTI::FederateInternalError)
 {
     if (strcmp(label, "Init") == 0) {
         paused = false ;
@@ -852,8 +844,6 @@ void
 HLA_OMNET::reflectAttributeValues(RTI::ObjectHandle theObject, 
 			    const RTI::AttributeHandleValuePairSet & theAttributes, 
 			    const char */*theTag*/) 
-	throw (RTI::ObjectNotKnown, RTI::AttributeNotKnown, RTI::FederateOwnsAttributes,
-	       RTI::FederateInternalError)
 {
 
 }
@@ -867,7 +857,6 @@ HLA_OMNET::removeObjectInstance(RTI::ObjectHandle theObject,
 			      const RTI::FedTime &,
 			      const char *,
 			      RTI::EventRetractionHandle)
-    throw (RTI::ObjectNotKnown, RTI::InvalidFederationTime, RTI::FederateInternalError)
 {
  
 }
@@ -879,8 +868,6 @@ void
 HLA_OMNET::discoverObjectInstance(RTI::ObjectHandle theObject,
 				RTI::ObjectClassHandle theObjectClass,
 				const char */*theObjectName*/)
-    throw (RTI::CouldNotDiscover, RTI::ObjectClassNotKnown,
-	   RTI::FederateInternalError)
 {
 
 }
