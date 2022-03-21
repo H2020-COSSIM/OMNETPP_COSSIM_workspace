@@ -55,10 +55,10 @@ network ARPTest
     types:
 
 
-        channel ethline_slow extends DatarateChannel
+        channel ethline extends DatarateChannel
         {
-            delay = 10ms;
-            datarate = 100Mbps;
+            delay = 1ms;
+            datarate = 1000Mbps;
         }
     submodules:
 
@@ -117,13 +117,13 @@ network ARPTest
     connections:
         syncnode.out --> {  delay = 0ms; } --> syncnode.in;
 
-        node0.gate <--> ethline_slow <--> micro_router0.ethg++;
-        node1.gate <--> ethline_slow <--> micro_router1.ethg++;        
-        micro_router0.ethg++ <--> ethline_slow <--> switch1.ethg++;
+        node0.gate <--> ethline <--> micro_router0.ethg++;
+        node1.gate <--> ethline <--> micro_router1.ethg++;        
+        micro_router0.ethg++ <--> ethline <--> switch1.ethg++;
 
 
-        node2.gate <--> ethline_slow <--> switch1.ethg++;
-        node3.gate <--> ethline_slow <--> switch1.ethg++;
+        node2.gate <--> ethline<--> switch1.ethg++;
+        node3.gate <--> ethline <--> switch1.ethg++;
 
 
 }
